@@ -27,7 +27,27 @@ public abstract class Peça {
 
     abstract boolean validMove(Point origin, Point desti);
 
-    private void moveTo(Point desti){
+    private void moveTo(Point desti) {
         tauler.marcarPeça(desti);
+    }
+
+    protected boolean isDiagonal(Point origen, Point desti) {
+        return tauler.isDiagonal(origen, desti);
+    }
+
+    protected boolean isUp(Point origen, Point desti){
+        return tauler.isUp(origen, desti);
+    }
+    
+    protected boolean isDown(Point origen, Point desti){
+        return tauler.isDown(origen, desti);
+    }
+    
+    protected boolean isLeft(Point origen, Point desti){
+        return tauler.isLeft(origen, desti);
+    }
+    
+    protected boolean isRight(Point origen, Point desti){
+        return tauler.isRight(origen, desti);
     }
 }
