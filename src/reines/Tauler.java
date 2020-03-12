@@ -13,75 +13,51 @@ import java.util.ArrayList;
  */
 class Tauler {
 
-    private ArrayList<Casella> tauler;
-    private final int MAX_TAULER = 8;
+    private Casella[][] tauler;
+    private int torn = 0;
+    private int tam;
 
-    public Tauler() {
-        tauler = new ArrayList();
+    public Tauler(int tam) {
+        tauler = new Casella[tam][tam];
+        this.tam = tam;
         inicialitzaTauler();
     }
 
     private void inicialitzaTauler() {
-        for (int i = 0; i < MAX_TAULER; i++) {
-            for (int j = 0; j < MAX_TAULER; j++) {
-                tauler.add(new Casella(i,j));
+        for (int i = 0; i < tam; i++) {
+            for (int j = 0; j < tam; j++) {
+                tauler[i][j] = new Casella(i, j);
             }
         }
     }
 
-    public ArrayList<Casella> getTauler() {
+    public Casella[][] getTauler() {
         return tauler;
     }
 
-    public boolean isDiagonal(Casella origen, Casella desti) {
-        return ((Math.abs(desti.getX() - origen.getX()) == Math.abs(desti.getY() - origen.getY()) && isInBounds(desti)));
-    }
-
-    public boolean isUp(Casella origen, Casella desti) {
-        return ((origen.getX() == desti.getX() && origen.getY() > desti.getY()) && isInBounds(desti));
-    }
-
-    public boolean isDown(Casella origen, Casella desti) {
-        return ((origen.getX() == desti.getX() && origen.getY() < desti.getY()) && isInBounds(desti));
-    }
-
-    public boolean isLeft(Casella origen, Casella desti) {
-        return ((origen.getY() == desti.getY() && origen.getX() > desti.getX()) && isInBounds(desti));
-    }
-
-    public boolean isRight(Casella origen, Casella desti) {
-        return ((origen.getY() == desti.getY() && origen.getX() < desti.getX()) && isInBounds(desti));
-    }
-
-    public boolean isInBounds(Casella desti) {
-        return ((desti.getX() >= 0 && desti.getX() < MAX_TAULER) && (desti.getY() >= 0 && desti.getY() < MAX_TAULER));
+    public void visit(Casella c) {
+        tauler[c.getX()][c.getY()].setTorn(torn);
+        torn++;
     }
 
     @Override
     public String toString() {
         String s = "";
-        for(Casella c : tauler){
-            int pos = getLinealPos(c);
-            if(pos % MAX_TAULER == 0){
-                s+="[";
+        for (int i = 0; i < tauler.length; i++) {
+            s += "[";
+            for (int j = 0; j < tauler[i].length; j++) {
+                s += " " + tauler[i][j].getTorn() + " ";
             }
-            s+= "\t" + pos + "\t";
-            if(pos % MAX_TAULER == MAX_TAULER - 1){
-                s+="]"+'\n';
-            }
+            s += "]\n";
         }
         return s;
     }
-
-    private int getLinealPos(Casella c) {
-        return c.getX()*MAX_TAULER + c.getY();
-    }
-
-    void afegeix(Casella c) {
-        tauler.add(c);
-    }
     
-    void eleimina(Casella c){
-        tauler.remove(c);
+     public boolean isInBounds(Casella c) {
+        return ((c.getX() >= 0 && c.getX() < tam) && (c.getY() >= 0 && c.getY() < tam));
+    }
+
+    public int getNCasella() {
+        return tam*tam;
     }
 }

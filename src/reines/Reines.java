@@ -11,26 +11,22 @@ package reines;
  */
 public class Reines {
 
-    /**
-     * @param args the command line arguments
-     */
+    static final int MAX_TAULER = 8;
+    static Tauler TAULER = new Tauler(MAX_TAULER);
+    
     public static void main(String[] args) {
-        // TODO code application logic here
-        System.out.println("Andrea");
         Cavall vac = new Cavall(0, 0, null);
-        System.out.println(vac.getTaulerNoVisitades().toString());
         backtracking(vac);
     }
 
-    private static void backtracking(Peça p) {
-        for(int i = 0; i < p.getTaulerNoVisitades().getTauler().size(); i++){
-            Casella desti = p.getTaulerNoVisitades().getTauler().get(i);
-            if(p.validMove(p.getPosicio(), desti)){
-                p.visitar(desti);
-            }
+    private static boolean backtracking(Peça p) {
+        if(TAULER.getTauler()[p.getX()][p.getY()].getTorn() == TAULER.getNCasella()){
+            return true;
         }
-        if(p.getTaulerNoVisitades().getTauler().isEmpty()){
-            System.out.println(p.getTaulerVisitades().toString());
+        for(int i=0; i < TAULER.getTauler().length; i++){
+            for(int j=0; j< TAULER.getTauler()[i].length; j++){
+                
+            }
         }
     }
 

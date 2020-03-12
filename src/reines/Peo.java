@@ -18,8 +18,8 @@ public class Peo extends Peça {
     }
 
     @Override
-    boolean validMove(Casella origin, Casella desti) {
-        return (isUp(origin, desti) && (origin.getY() - desti.getY() == 1));
+    boolean validMove(Casella desti) {
+        return (getCasella().isUp(desti) && (getCasella().getYDistance(desti) == 1));
     }
 
 }

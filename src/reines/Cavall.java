@@ -16,19 +16,20 @@ public class Cavall extends Peça {
     public Cavall(int x, int y, ImageIcon img) {
         super(x, y, img);
     }
-
+    
     @Override
-    boolean validMove(Casella origin, Casella desti) {
-        return (!(isDiagonal(origin, desti) || isUp(origin, desti)
-                || isDown(origin, desti) || isLeft(origin, desti)
-                || isRight(origin, desti)) && validateHorseMove(origin, desti));
+    boolean validMove(Casella desti) {
+        return (!(getCasella().isDiagonal(desti) || getCasella().isUp(desti)
+                || getCasella().isDown(desti) || getCasella().isLeft(desti)
+                || getCasella().isRight(desti)) && validateHorseMove(desti) 
+                && !desti.isVisited());
     }
 
-    private boolean validateHorseMove(Casella origen, Casella desti) {
-        return ((Math.abs(origen.getX() - desti.getX()) == 1
-                && Math.abs(origen.getY() - desti.getY()) == 2)
-                || (Math.abs(origen.getX() - desti.getX()) == 2
-                && Math.abs(origen.getY() - desti.getY()) == 1));
+    private boolean validateHorseMove( Casella desti) {
+        return ((Math.abs(this.getX() - desti.getX()) == 1
+                && Math.abs(this.getY() - desti.getY()) == 2)
+                || (Math.abs(this.getX() - desti.getX()) == 2
+                && Math.abs(this.getY() - desti.getY()) == 1));
     }
 
 }
