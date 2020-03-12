@@ -16,6 +16,7 @@ public class Reines {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        System.out.println("Andrea");
         Cavall vac = new Cavall(0, 0, null);
         System.out.println(vac.getTaulerNoVisitades().toString());
         backtracking(vac);
