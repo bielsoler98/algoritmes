@@ -5,7 +5,7 @@
  */
 package reines;
 
-import java.awt.Point;
+import java.util.ArrayList;
 
 /**
  *
@@ -13,48 +13,75 @@ import java.awt.Point;
  */
 class Tauler {
 
-    private int[][] tauler;
-    private int pecesMarcades = 0;
+    private ArrayList<Casella> tauler;
+    private final int MAX_TAULER = 8;
 
     public Tauler() {
-        tauler = new int[8][8];
+        tauler = new ArrayList();
         inicialitzaTauler();
     }
 
     private void inicialitzaTauler() {
-        for (int i = 0; i < tauler.length; i++) {
-            for (int j = 0; j < tauler[j].length; j++) {
-                tauler[i][j] = 0;
+        for (int i = 0; i < MAX_TAULER; i++) {
+            for (int j = 0; j < MAX_TAULER; j++) {
+                tauler.add(new Casella(i,j));
             }
         }
     }
 
-    public void marcarPeça(Point p) {
-        pecesMarcades++;
-        tauler[p.x][p.y] = pecesMarcades;
+    public ArrayList<Casella> getTauler() {
+        return tauler;
     }
 
-    public boolean isMarcada(Point p) {
-        return (tauler[p.x][p.y] != 0);
+    public boolean isDiagonal(Casella origen, Casella desti) {
+        return ((Math.abs(desti.getX() - origen.getX()) == Math.abs(desti.getY() - origen.getY()) && isInBounds(desti)));
     }
 
-    public boolean isDiagonal(Point origen, Point desti) {
-        return (Math.abs(desti.x - origen.x) == Math.abs(desti.y - origen.y));
+    public boolean isUp(Casella origen, Casella desti) {
+        return ((origen.getX() == desti.getX() && origen.getY() > desti.getY()) && isInBounds(desti));
     }
 
-    public boolean isUp(Point origen, Point desti) {
-        return (origen.x == desti.x && origen.y < desti.y);
+    public boolean isDown(Casella origen, Casella desti) {
+        return ((origen.getX() == desti.getX() && origen.getY() < desti.getY()) && isInBounds(desti));
     }
 
-    public boolean isDown(Point origen, Point desti) {
-        return (origen.x == desti.x && origen.y > desti.y);
+    public boolean isLeft(Casella origen, Casella desti) {
+        return ((origen.getY() == desti.getY() && origen.getX() > desti.getX()) && isInBounds(desti));
     }
 
-    public boolean isLeft(Point origen, Point desti) {
-        return (origen.y == desti.y && origen.x > desti.x);
+    public boolean isRight(Casella origen, Casella desti) {
+        return ((origen.getY() == desti.getY() && origen.getX() < desti.getX()) && isInBounds(desti));
     }
 
-    public boolean isRight(Point origen, Point desti) {
-        return (origen.y == desti.y && origen.x < desti.x);
+    public boolean isInBounds(Casella desti) {
+        return ((desti.getX() >= 0 && desti.getX() < MAX_TAULER) && (desti.getY() >= 0 && desti.getY() < MAX_TAULER));
+    }
+
+    @Override
+    public String toString() {
+        String s = "";
+        for(Casella c : tauler){
+            int pos = getLinealPos(c);
+            if(pos % MAX_TAULER == 0){
+                s+="[";
+            }
+            s+= "\t" + pos + "\t";
+            if(pos % MAX_TAULER == MAX_TAULER - 1){
+                s+="]"+'\n';
+            }
+        }
+        return s;
+    }
+
+    private int getLinealPos(Casella c) {
+        return c.getX()*MAX_TAULER + c.getY();
+    }
+
+    void afegeix(Casella c) {
+        tauler.add(c);
+    }
+    
+    void eleimina(Casella c){
+        tauler.remove(c);
     }
 }

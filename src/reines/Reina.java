@@ -5,7 +5,6 @@
  */
 package reines;
 
-import java.awt.Point;
 import javax.swing.ImageIcon;
 
 /**
@@ -19,10 +18,10 @@ public class Reina extends Peça {
     }
 
     @Override
-    boolean validMove(Point origin, Point desti) {
-        return (isDiagonal(origin, desti) || isUp(origin, desti) || 
+    boolean validMove(Casella origin, Casella desti) {
+        return ((isDiagonal(origin, desti) || isUp(origin, desti) || 
                 isDown(origin,desti) || isRight(origin, desti) || 
-                isLeft(origin, desti));
+                isLeft(origin, desti)));
     }
 
 }

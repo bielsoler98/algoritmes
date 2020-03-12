@@ -5,7 +5,6 @@
  */
 package reines;
 
-import java.awt.Point;
 import javax.swing.ImageIcon;
 
 /**
@@ -19,17 +18,17 @@ public class Cavall extends Peça {
     }
 
     @Override
-    boolean validMove(Point origin, Point desti) {
+    boolean validMove(Casella origin, Casella desti) {
         return (!(isDiagonal(origin, desti) || isUp(origin, desti)
                 || isDown(origin, desti) || isLeft(origin, desti)
                 || isRight(origin, desti)) && validateHorseMove(origin, desti));
     }
 
-    private boolean validateHorseMove(Point origen, Point desti) {
-        return ((Math.abs(origen.x - desti.x) == 1
-                && Math.abs(origen.y - desti.y) == 2) || 
-                (Math.abs(origen.x - desti.x) == 2
-                && Math.abs(origen.y - desti.y) == 1));
+    private boolean validateHorseMove(Casella origen, Casella desti) {
+        return ((Math.abs(origen.getX() - desti.getX()) == 1
+                && Math.abs(origen.getY() - desti.getY()) == 2)
+                || (Math.abs(origen.getX() - desti.getX()) == 2
+                && Math.abs(origen.getY() - desti.getY()) == 1));
     }
 
 }

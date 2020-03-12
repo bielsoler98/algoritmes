@@ -5,7 +5,6 @@
  */
 package reines;
 
-import java.awt.Point;
 import javax.swing.ImageIcon;
 
 /**
@@ -19,8 +18,8 @@ public class Peo extends Peça {
     }
 
     @Override
-    boolean validMove(Point origin, Point desti) {
-        return (isUp(origin, desti) && (origin.y - desti.y == 1));
+    boolean validMove(Casella origin, Casella desti) {
+        return (isUp(origin, desti) && (origin.getY() - desti.getY() == 1));
     }
 
 }

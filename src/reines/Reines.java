@@ -16,7 +16,21 @@ public class Reines {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        
+        Cavall vac = new Cavall(0, 0, null);
+        System.out.println(vac.getTaulerNoVisitades().toString());
+        backtracking(vac);
     }
-    
+
+    private static void backtracking(Peça p) {
+        for(int i = 0; i < p.getTaulerNoVisitades().getTauler().size(); i++){
+            Casella desti = p.getTaulerNoVisitades().getTauler().get(i);
+            if(p.validMove(p.getPosicio(), desti)){
+                p.visitar(desti);
+            }
+        }
+        if(p.getTaulerNoVisitades().getTauler().isEmpty()){
+            System.out.println(p.getTaulerVisitades().toString());
+        }
+    }
+
 }

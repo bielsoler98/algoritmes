@@ -6,6 +6,7 @@
 package reines;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 /**
@@ -14,40 +15,60 @@ import javax.swing.ImageIcon;
  */
 public abstract class Peça {
 
-    private Point posicio;
-    private Tauler tauler;
+    private Casella posicio;
+    private Tauler taulerVisitades;
+    private Tauler taulerNoVisitades;
     private ImageIcon img;
 
     public Peça(int x, int y, ImageIcon img) {
-        posicio = new Point(x, y);
-        tauler = new Tauler();
-        tauler.marcarPeça(posicio);
+        posicio = new Casella(x, y);
+        taulerVisitades = new Tauler();
+        taulerNoVisitades = new Tauler();
+        visitar(posicio);
         this.img = img;
     }
 
-    abstract boolean validMove(Point origin, Point desti);
+    abstract boolean validMove(Casella origin, Casella desti);
 
-    private void moveTo(Point desti) {
-        tauler.marcarPeça(desti);
-    }
-
-    protected boolean isDiagonal(Point origen, Point desti) {
-        return tauler.isDiagonal(origen, desti);
+    public Casella getPosicio() {
+        return posicio;
     }
 
-    protected boolean isUp(Point origen, Point desti){
-        return tauler.isUp(origen, desti);
+    public void setPosicio(Casella posicio) {
+        this.posicio = posicio;
+    }
+
+    public final void visitar(Casella desti) {
+        taulerNoVisitades.eleimina(desti);
+        taulerVisitades.afegeix(desti);
+        posicio = desti;
+        System.out.println("He visitat la casella " + (desti.getX()*8 + desti.getY()));
+    }
+
+    protected boolean isDiagonal(Casella origen, Casella desti) {
+        return taulerNoVisitades.isDiagonal(origen, desti);
+    }
+
+    protected final boolean isUp(Casella origen, Casella desti){
+        return taulerNoVisitades.isUp(origen, desti);
     }
     
-    protected boolean isDown(Point origen, Point desti){
-        return tauler.isDown(origen, desti);
+    protected final boolean isDown(Casella origen, Casella desti){
+        return taulerNoVisitades.isDown(origen, desti);
     }
     
-    protected boolean isLeft(Point origen, Point desti){
-        return tauler.isLeft(origen, desti);
+    protected final boolean isLeft(Casella origen, Casella desti){
+        return taulerNoVisitades.isLeft(origen, desti);
     }
     
-    protected boolean isRight(Point origen, Point desti){
-        return tauler.isRight(origen, desti);
+    protected final boolean isRight(Casella origen, Casella desti){
+        return taulerNoVisitades.isRight(origen, desti);
+    }
+
+    public Tauler getTaulerNoVisitades() {
+        return taulerNoVisitades;
+    }
+    public Tauler getTaulerVisitades() {
+        return taulerVisitades;
     }
 }
