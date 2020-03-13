@@ -7,10 +7,6 @@ package reines;
 
 import javax.swing.ImageIcon;
 
-/**
- *
- * @author biels
- */
 public class Peo extends Peça {
 
     public Peo(int x, int y, ImageIcon img) {

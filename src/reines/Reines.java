@@ -11,30 +11,34 @@ package reines;
  */
 public class Reines {
 
-    static final int MAX_TAULER = 8;
-    static Tauler TAULER = new Tauler(MAX_TAULER);
-
     public static void main(String[] args) {
-        Cavall vac = new Cavall(0, 0, null);
+        Peça vac = new Cavall(0, 0, null);
         vac.visit(vac.getPosition());
-        backtracking(vac);
-        System.out.println(vac.tauler);
+        if (backtracking(vac)) {
+            System.out.println(vac.tauler);
+        } else {
+            System.out.println("Aquesta peça no pot recorrer tot el tauler");
+        }
     }
 
     private static boolean backtracking(Peça p) {
-        Casella desti = p.nextMove();
-        while (desti != null) {
-            if (p.getCasella(p.getPosition()).getTorn() == p.getTauler().getNCasella()) {
-                return true;
-            } else {
-                Peça p1 = p.clonePeça();
-                p1.visit(desti);
-                if (backtracking(p1)) {
-                    p.visit(desti);
+        if (p.getPosition().getTorn() == p.getTauler().getNCasella()) {
+            return true;
+        } else {
+            for (Casella[] tauler : p.tauler.getTauler()) {
+                for (Casella desti : tauler) {
+                    if (p.validMove(desti)) {
+                        Casella inici = p.getPosition();
+                        p.visit(desti);
+                        if (backtracking(p)) {
+                            return true;
+                        } else {
+                            p.getBack(inici);
+                        }
+                    }
                 }
             }
-            desti = p.nextMove();
+            return false;
         }
-        return false;
     }
 }

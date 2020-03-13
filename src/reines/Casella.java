@@ -42,29 +42,29 @@ public class Casella {
     }
     
     public boolean isDiagonal(Casella c) {
-        return (Math.abs(c.getX() - this.getX()) == Math.abs(c.getY() - this.getY()));
+        return (Math.abs(c.getX() - x) == Math.abs(c.getY() - y));
     }
 
     public boolean isUp(Casella c) {
-        return (this.getX() == c.getX() && this.getY() > c.getY());
+        return (x == c.getX() && y > c.getY());
     }
 
     public boolean isDown(Casella c) {
-        return (this.getX() == c.getX() && this.getY() < c.getY());
+        return (x == c.getX() && y < c.getY());
     }
 
     public boolean isLeft(Casella c) {
-        return (this.getY() == c.getY() && this.getX() > c.getX());
+        return (y == c.getY() && x > c.getX());
     }
 
     public boolean isRight(Casella c) {
-        return (this.getY() == c.getY() && this.getX() < c.getX());
+        return (y == c.getY() && x < c.getX());
     }
     
     public int getXDistance(Casella c){
-        return Math.abs(this.x - c.x);
+        return Math.abs(x - c.x);
     }
     public int getYDistance(Casella c){
-        return Math.abs(this.y - c.y);
+        return Math.abs(y - c.y);
     }
 }

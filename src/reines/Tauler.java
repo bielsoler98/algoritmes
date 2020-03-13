@@ -5,8 +5,6 @@
  */
 package reines;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author biels
@@ -14,7 +12,6 @@ import java.util.ArrayList;
 class Tauler {
 
     private Casella[][] tauler;
-    private int torn = 0;
     private int tam;
 
     public Tauler(int tam) {
@@ -41,10 +38,11 @@ class Tauler {
         for (int i = 0; i < tauler.length; i++) {
             s += "[";
             for (int j = 0; j < tauler[i].length; j++) {
-                s += " " + tauler[i][j].getTorn() + " ";
+                s += "\t" + (tauler[i][j].getTorn()!= -1 ? tauler[i][j].getTorn() : "x" );
             }
             s += "]\n";
         }
+        s+="\n====================================================================================================================================================\n";
         return s;
     }
     
@@ -54,11 +52,5 @@ class Tauler {
 
     public int getNCasella() {
         return tam*tam-1;
-    }
-
-    int getTorn() {
-        int i = torn;
-        torn++;
-        return i;
     }
 }
