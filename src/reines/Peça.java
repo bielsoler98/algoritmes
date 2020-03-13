@@ -5,10 +5,6 @@
  */
 package reines;
 
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 /**
@@ -17,32 +13,55 @@ import javax.swing.ImageIcon;
  */
 public abstract class Peça {
 
-    private int x;
-    private int y;
+    protected Casella position;
     private ImageIcon img;
+    protected Tauler tauler;
 
     public Peça(int x, int y, ImageIcon img) {
-        this.x = x;
-        this.y = y;
+        tauler = new Tauler(8);
+        position = getCasella(x, y);
         this.img = img;
     }
 
-    abstract boolean validMove( Casella desti);
-
-    public int getX() {
-        return x;
+    public Tauler getTauler() {
+        return tauler;
     }
 
-    public int getY() {
-        return y;
-    }
+    abstract boolean validMove(Casella desti);
+    abstract Peça clonePeça();
 
     public void setPosition(int x, int y) {
-        this.x = x;
-        this.y = y;
+        position = getCasella(x,y);
+    }
+
+    protected final Casella getPosition() {
+        return position;
+    }
+
+    public Casella nextMove() {
+        for (int i = 0; i < tauler.getTauler().length; i++) {
+            for (int j = 0; j < tauler.getTauler()[i].length; j++) {
+                if (validMove(tauler.getTauler()[i][j])) {
+                    return tauler.getTauler()[i][j];
+                }
+            }
+        }
+        return null;
+    }
+
+    public void visit(Casella c) {
+        tauler.getTauler()[c.getX()][c.getY()].setTorn(tauler.getTorn());
+        setPosition(c.getX(), c.getY());
     }
     
-    protected final Casella getCasella(){
-        return new Casella(x,y);
+    public Casella getCasella(int x, int y){
+        return tauler.getTauler()[x][y];
+    }    
+    
+    public Casella getCasella(Casella c){
+        return tauler.getTauler()[c.getX()][c.getY()];
+    }
+    protected final void setTauler(Tauler t){
+        tauler = t;
     }
 }

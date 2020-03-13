@@ -35,11 +35,6 @@ class Tauler {
         return tauler;
     }
 
-    public void visit(Casella c) {
-        tauler[c.getX()][c.getY()].setTorn(torn);
-        torn++;
-    }
-
     @Override
     public String toString() {
         String s = "";
@@ -58,6 +53,12 @@ class Tauler {
     }
 
     public int getNCasella() {
-        return tam*tam;
+        return tam*tam-1;
+    }
+
+    int getTorn() {
+        int i = torn;
+        torn++;
+        return i;
     }
 }

@@ -19,7 +19,13 @@ public class Peo extends Peça {
 
     @Override
     boolean validMove(Casella desti) {
-        return (getCasella().isUp(desti) && (getCasella().getYDistance(desti) == 1));
+        return (position.isUp(desti) && (position.getYDistance(desti) == 1));
     }
 
+    @Override
+    Peça clonePeça() {
+        Peo p = new Peo(this.position.getX(), this.position.getY(), null);
+        p.setTauler(tauler);
+        return p;
+    }
 }

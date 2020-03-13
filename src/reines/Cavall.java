@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package reines;
 
 import javax.swing.ImageIcon;
@@ -19,17 +14,23 @@ public class Cavall extends Peça {
     
     @Override
     boolean validMove(Casella desti) {
-        return (!(getCasella().isDiagonal(desti) || getCasella().isUp(desti)
-                || getCasella().isDown(desti) || getCasella().isLeft(desti)
-                || getCasella().isRight(desti)) && validateHorseMove(desti) 
+        return (!(position.isDiagonal(desti) || position.isUp(desti)
+                || position.isDown(desti) || position.isLeft(desti)
+                || position.isRight(desti)) && validateHorseMove(desti) 
                 && !desti.isVisited());
     }
 
     private boolean validateHorseMove( Casella desti) {
-        return ((Math.abs(this.getX() - desti.getX()) == 1
-                && Math.abs(this.getY() - desti.getY()) == 2)
-                || (Math.abs(this.getX() - desti.getX()) == 2
-                && Math.abs(this.getY() - desti.getY()) == 1));
+        return ((Math.abs(position.getX() - desti.getX()) == 1
+                && Math.abs(position.getY() - desti.getY()) == 2)
+                || (Math.abs(position.getX() - desti.getX()) == 2
+                && Math.abs(position.getY() - desti.getY()) == 1));
     }
 
+    @Override
+    Peça clonePeça() {
+        Cavall p = new Cavall(this.position.getX(), this.position.getY(), null);
+        p.setTauler(tauler);
+        return p;
+    }
 }

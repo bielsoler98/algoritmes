@@ -19,9 +19,16 @@ public class Reina extends Peça {
 
     @Override
     boolean validMove(Casella desti) {
-        return ((getCasella().isDiagonal(desti) || getCasella().isUp(desti) || 
-                getCasella().isDown(desti) || getCasella().isRight(desti) || 
-                getCasella().isLeft(desti)) && !desti.isVisited());
+        return ((position.isDiagonal(desti) || position.isUp(desti) || 
+                position.isDown(desti) || position.isRight(desti) || 
+                position.isLeft(desti)) && !desti.isVisited());
+    }
+
+    @Override
+    Peça clonePeça() {
+        Reina p = new Reina(this.position.getX(), this.position.getY(), null);
+        p.setTauler(tauler);
+        return p;
     }
 
 }
