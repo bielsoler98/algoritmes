@@ -5,6 +5,8 @@
  */
 package reines;
 
+import javax.swing.JFrame;
+import View.View;
 /**
  *
  * @author biels
@@ -13,6 +15,7 @@ public class Reines {
 
     public static void main(String[] args) {
         Peça vac = new Cavall(0, 0, null);
+        startView();
         vac.visit(vac.getPosition());
         if (backtracking(vac)) {
             System.out.println(vac.tauler);
@@ -22,7 +25,8 @@ public class Reines {
     }
 
     private static boolean backtracking(Peça p) {
-        if (p.getPosition().getTorn() == p.getTauler().getNCasella()) {
+//        System.out.println(p.tauler);
+        if (p.hasFinished()) {
             return true;
         } else {
             for (Casella[] tauler : p.tauler.getTauler()) {
@@ -40,5 +44,14 @@ public class Reines {
             }
             return false;
         }
+    }
+
+    private static void startView() {
+        View f = new View();
+        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        f.setLocationByPlatform(true);
+        f.pack();
+        f.setMinimumSize(f.getSize());
+        f.setVisible(true);
     }
 }

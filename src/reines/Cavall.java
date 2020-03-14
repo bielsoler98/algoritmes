@@ -26,11 +26,4 @@ public class Cavall extends Peça {
                 || (Math.abs(position.getX() - desti.getX()) == 2
                 && Math.abs(position.getY() - desti.getY()) == 1));
     }
-
-    @Override
-    Peça clonePeça() {
-        Cavall p = new Cavall(this.position.getX(), this.position.getY(), null);
-        p.setTauler(tauler);
-        return p;
-    }
 }

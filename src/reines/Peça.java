@@ -30,7 +30,6 @@ public abstract class Peça {
     }
 
     abstract boolean validMove(Casella desti);
-    abstract Peça clonePeça();
 
     public void setPosition(int x, int y) {
         position = getCasella(x,y);
@@ -62,7 +61,7 @@ public abstract class Peça {
         tauler.getTauler()[position.getX()][position.getY()].setTorn(-1);
         setPosition(c.getX(), c.getY());
         torn--;
-//        System.out.println("RESET: ["+ tauler.getTauler()[c.getX()][c.getY()].getX()+ " , " + tauler.getTauler()[c.getX()][c.getY()].getY() + "en el torn "+ torn);
+//        System.out.println("RESET: ["+ tauler.getTauler()[c.getX()][c.getY()].getX()+ " , " + tauler.getTauler()[c.getX()][c.getY()].getY() + "]en el torn "+ torn);
     }
     
     public Casella getCasella(int x, int y){
@@ -71,5 +70,9 @@ public abstract class Peça {
    
     protected final void setTauler(Tauler t){
         tauler = t;
+    }
+
+    boolean hasFinished() {
+        return position.getTorn() == tauler.getNCasella();
     }
 }

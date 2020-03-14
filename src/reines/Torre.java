@@ -11,16 +11,16 @@ import javax.swing.ImageIcon;
  *
  * @author biels
  */
-public class Reina extends Peça {
+public class Torre extends Peça{
 
-    public Reina(int x, int y, ImageIcon img) {
+    public Torre(int x, int y, ImageIcon img) {
         super(x, y, img);
     }
 
     @Override
     boolean validMove(Casella desti) {
-        return ((position.isDiagonal(desti) || position.isUp(desti) || 
-                position.isDown(desti) || position.isRight(desti) || 
-                position.isLeft(desti)) && !desti.isVisited());
+        return (position.isUp(desti) || position.isDown(desti) || 
+                position.isLeft(desti) || position.isRight(desti)) && !desti.isVisited();
     }
+    
 }
