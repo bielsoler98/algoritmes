@@ -23,8 +23,8 @@ public abstract class Peça {
         tauler = new Tauler(8);
         position = getCasella(x, y);
         this.img = img;
-        visit(position);
         torn =0;
+        visit(position);
     }
 
     public Casella[][] getTauler() {
@@ -53,21 +53,21 @@ public abstract class Peça {
     }
 
     public void visit(Casella c) {
-        tauler.getTauler()[c.getX()][c.getY()].setTorn(torn);
+        getTauler()[c.getX()][c.getY()].setTorn(torn);
         setPosition(c.getX(), c.getY());
         torn++;
 //        System.out.println("GOTO: ["+ tauler.getTauler()[c.getX()][c.getY()].getX()+ " , " + tauler.getTauler()[c.getX()][c.getY()].getY() + "] en el torn "+ torn);
     }
     
     public void getBack(Casella c){
-        tauler.getTauler()[position.getX()][position.getY()].setTorn(-1);
+        getTauler()[position.getX()][position.getY()].setTorn(-1);
         setPosition(c.getX(), c.getY());
         torn--;
 //        System.out.println("RESET: ["+ tauler.getTauler()[c.getX()][c.getY()].getX()+ " , " + tauler.getTauler()[c.getX()][c.getY()].getY() + "]en el torn "+ torn);
     }
     
     public Casella getCasella(int x, int y){
-        return tauler.getTauler()[x][y];
+        return getTauler()[x][y];
     }    
    
     protected final void setTauler(Tauler t){
@@ -76,5 +76,9 @@ public abstract class Peça {
 
     public boolean hasFinished() {
         return position.getTorn() == tauler.getNCasella();
+    }
+    
+    public int borrar(){
+        return position.getTorn();
     }
 }

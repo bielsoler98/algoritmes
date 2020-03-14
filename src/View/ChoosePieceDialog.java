@@ -19,14 +19,10 @@ public class ChoosePieceDialog extends JDialog {
     
     private JPanel panel;
     private View view;
-    private int x;
-    private int y;
     
-    public ChoosePieceDialog(View frame, int x, int y) {
+    public ChoosePieceDialog(View frame) {
         super(frame, "Choose yor piece", true);
         this.view = frame;
-        this.x = x;
-        this.y = y;
         panel = new JPanel();
         createButtonWithIcon(Imatge.CAVALL,"cavall");
         createButtonWithIcon(Imatge.REI,"rei");
@@ -43,7 +39,7 @@ public class ChoosePieceDialog extends JDialog {
         JButton button = new JButton(icon.getIcon());
         button.setPreferredSize(new Dimension(100, 100));
         button.addActionListener((ActionEvent) -> {
-            view.notifySelection(select, x, y);
+            view.notifySelection(select);
             dispose();
         });
         panel.add(button);

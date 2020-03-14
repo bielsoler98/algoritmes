@@ -25,6 +25,10 @@ public class Control extends Thread{
     public Control(View view){
         this.view = view;
     }
+   
+    public void run(){
+        selectMethod(view.getPieza(), view.getxIcon(), view.getyIcon());
+    }
     
     public void selectMethod(String pieza, int x, int y){
         Peça p = null;
@@ -48,14 +52,16 @@ public class Control extends Thread{
         if (backtracking(p)) {
             showSolution(p);
         } else {
-            System.out.println("Aquesta peça no pot recorrer tot el tauler");
+            view.showMessage();
         }
     }
     
     public void showSolution(Peça p) {
         for(int i = 0; i < p.getTauler().length; i++){
             for (int j = 0; j < p.getTauler()[i].length; j++) {
-                view.setNumberToCasilla(i, j, p.getTauler()[i][j].getTorn());
+                if(i != view.getxIcon() || j != view.getyIcon()){
+                    view.setNumberToCasilla(i, j, p.getTauler()[i][j].getTorn());
+                }
             }
         }
     }
