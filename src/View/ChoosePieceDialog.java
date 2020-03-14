@@ -5,6 +5,7 @@
  */
 package View;
 
+import Control.Control;
 import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,7 +19,8 @@ import javax.swing.JPanel;
  */
 public class ChoosePieceDialog extends JDialog {
     
-    JPanel panel;
+    private JPanel panel;
+    private Control control;
     
     private final ImageIcon cavall = new ImageIcon(new ImageIcon(getClass()
             .getResource("images/WhiteKnight.png")).getImage().
@@ -38,24 +40,28 @@ public class ChoosePieceDialog extends JDialog {
     
     JButton casella;
 
-    public ChoosePieceDialog(JFrame frame, JButton b) {
+    public ChoosePieceDialog(JFrame frame, Control control) {
         super(frame, "Choose yor piece", true);
         casella = b;
+        this.control=control;
         panel = new JPanel();
         createButtonWithIcon(cavall);
         createButtonWithIcon(rei);
         createButtonWithIcon(reina);
         createButtonWithIcon(torre);
         createButtonWithIcon(peo);
-        this.add(panel);
-        getContentPane().add(panel);
-        pack();
+        this.add(panel);   
+        setLocationRelativeTo(frame);
+        setVisible(true);
     }
+    
+    
 
     private void createButtonWithIcon(ImageIcon icon) {
         JButton button = new JButton(icon);
         button.setPreferredSize(new Dimension(100, 100));
         button.addActionListener((ActionEvent) -> {
+            
             casella.setIcon(icon);
             dispose();
         });

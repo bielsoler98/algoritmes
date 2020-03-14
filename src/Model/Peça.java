@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package reines;
+package Model;
 
 import javax.swing.ImageIcon;
+import reines.Reines;
 
 /**
  *
@@ -79,7 +80,7 @@ public abstract class Peça {
     public void showSolution() {
         for(int i = 0; i < tauler.getTauler().length; i++){
             for (int j = 0; j < tauler.getTauler()[i].length; j++) {
-                Reines.f.setNumberToCasilla(i, j, tauler.getTauler()[i][j].getTorn());
+                Reines.view.setNumberToCasilla(i, j, tauler.getTauler()[i][j].getTorn());
             }
         }
     }

@@ -5,6 +5,7 @@
  */
 package View;
 
+import Control.Control;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -15,12 +16,9 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.border.EmptyBorder;
@@ -31,18 +29,27 @@ import javax.swing.border.EmptyBorder;
  */
 public class View extends JFrame {
 
-    JPanel panel;
-    JPanel grid;
+    private JPanel panel;
+    private JPanel grid;
     private final JFrame context = this;
-    JButton[][] chessBoardSquares;
-   
+    private JButton[][] chessBoardSquares;
+    private Control control;
 
     public View() {
         panel = new JPanel(new BorderLayout(3, 3));
         panel.setBorder(new EmptyBorder(5, 5, 5, 5));
         initToolbar();
         initChessBoard();
-        this.add(panel);
+        add(panel);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationByPlatform(true);
+        pack();
+        setMinimumSize(getSize());
+        setVisible(true);
+    }
+
+    public void setControlador(Control con) {
+        control = con;
     }
 
     private void initChessBoard() {
@@ -92,20 +99,17 @@ public class View extends JFrame {
             for (int jj = 0; jj < chessBoardSquares[ii].length; jj++) {
                 JButton b = new JButton();
                 b.setMargin(buttonMargin);
-                b.setPreferredSize(new Dimension(80,80));
+                b.setPreferredSize(new Dimension(80, 80));
                 b.setFont(new Font("Arial", Font.PLAIN, 64));
                 if ((jj % 2 == 1 && ii % 2 == 1) || (jj % 2 == 0 && ii % 2 == 0)) {
                     b.setBackground(Color.WHITE);
                 } else {
                     b.setBackground(Color.LIGHT_GRAY);
                 }
-                b.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        JDialog d = new ChoosePieceDialog(context, b);
-                        d.setLocationRelativeTo(context);
-                        d.setVisible(true);
-                    }
+                final int x = ii;
+                final int y = jj;
+                b.addActionListener((ActionEvent) -> {
+                   JDialog d = new ChoosePieceDialog(context, control);
                 });
                 chessBoardSquares[ii][jj] = b;
                 grid.add(b);
@@ -113,7 +117,12 @@ public class View extends JFrame {
         }
     }
 
-    public void setNumberToCasilla(int x, int y, int number){
+    public void showDialog() {
+        
+        
+    }
+
+    public void setNumberToCasilla(int x, int y, int number) {
         chessBoardSquares[x][y].setText(Integer.toString(number));
         chessBoardSquares[x][y].setFont(new Font("Arial", Font.PLAIN, 64));
     }

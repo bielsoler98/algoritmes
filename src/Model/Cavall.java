@@ -1,4 +1,4 @@
-package reines;
+package Model;
 
 import javax.swing.ImageIcon;
 

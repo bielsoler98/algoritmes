@@ -3,24 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package reines;
+package Model;
 
 import javax.swing.ImageIcon;
 
-/**
- *
- * @author biels
- */
-public class Torre extends Peça{
+public class Peo extends Peça {
 
-    public Torre(int x, int y, ImageIcon img) {
+    public Peo(int x, int y, ImageIcon img) {
         super(x, y, img);
     }
 
     @Override
     boolean validMove(Casella desti) {
-        return (position.isUp(desti) || position.isDown(desti) || 
-                position.isLeft(desti) || position.isRight(desti)) && !desti.isVisited();
+        return (position.isUp(desti) && (position.getYDistance(desti) == 1));
     }
-    
 }
