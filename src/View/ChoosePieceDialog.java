@@ -5,12 +5,10 @@
  */
 package View;
 
-import Control.Control;
 import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
@@ -23,7 +21,7 @@ public class ChoosePieceDialog extends JDialog {
     private View view;
     private int x;
     private int y;
-
+    
     public ChoosePieceDialog(View frame, int x, int y) {
         super(frame, "Choose yor piece", true);
         this.view = frame;
@@ -35,8 +33,9 @@ public class ChoosePieceDialog extends JDialog {
         createButtonWithIcon(Imatge.REINA,"reina");
         createButtonWithIcon(Imatge.TORRE,"torre");
         createButtonWithIcon(Imatge.PEO,"peo");
-        this.add(panel);   
-        setLocationRelativeTo(frame);
+        getContentPane().add(panel);
+        pack();
+        setLocationRelativeTo(view);
         setVisible(true);
     }
 

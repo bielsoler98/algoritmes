@@ -18,7 +18,7 @@ public class Rei extends Peça {
     }
 
     @Override
-    boolean validMove(Casella desti) {
+    public boolean validMove(Casella desti) {
         return ((position.getXDistance(desti) == 1 && position.getYDistance(desti)<2)
                 || (position.getYDistance(desti) == 1) && position.getXDistance(desti)<2)&& !desti.isVisited();
     }

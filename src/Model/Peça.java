@@ -31,7 +31,7 @@ public abstract class Peça {
         return tauler.getTauler();
     }
 
-    abstract boolean validMove(Casella desti);
+    public abstract boolean validMove(Casella desti);
 
     public void setPosition(int x, int y) {
         position = getCasella(x,y);

@@ -18,7 +18,7 @@ public class Reina extends Peça {
     }
 
     @Override
-    boolean validMove(Casella desti) {
+    public boolean validMove(Casella desti) {
         return ((position.isDiagonal(desti) || position.isUp(desti) || 
                 position.isDown(desti) || position.isRight(desti) || 
                 position.isLeft(desti)) && !desti.isVisited());

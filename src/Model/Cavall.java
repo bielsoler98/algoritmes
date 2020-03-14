@@ -13,7 +13,7 @@ public class Cavall extends Peça {
     }
     
     @Override
-    boolean validMove(Casella desti) {
+    public boolean validMove(Casella desti) {
         return (!(position.isDiagonal(desti) || position.isUp(desti)
                 || position.isDown(desti) || position.isLeft(desti)
                 || position.isRight(desti)) && validateHorseMove(desti) 

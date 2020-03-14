@@ -18,7 +18,7 @@ import View.View;
  *
  * @author Andrea
  */
-public class Control {
+public class Control extends Thread{
     
     private View view;
     
@@ -29,19 +29,19 @@ public class Control {
     public void selectMethod(String pieza, int x, int y){
         Peça p = null;
         switch(pieza){
-            case "Cavall": 
+            case "cavall": 
                 p = new Cavall(x, y, null);
                 break;
-            case "Reina": 
+            case "reina": 
                 p = new Reina(x,y,null);
                 break;
-            case "Peo": 
+            case "peo": 
                 p = new Peo(x,y,null);
                 break;
-            case "Rei": 
+            case "rei": 
                 p = new Rei(x,y,null);
                 break;
-            case "Torre": 
+            case "torre": 
                 p = new Torre(x,y,null);
                 break;   
         }
