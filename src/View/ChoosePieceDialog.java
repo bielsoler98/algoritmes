@@ -20,49 +20,31 @@ import javax.swing.JPanel;
 public class ChoosePieceDialog extends JDialog {
     
     private JPanel panel;
-    private Control control;
-    
-    private final ImageIcon cavall = new ImageIcon(new ImageIcon(getClass()
-            .getResource("images/WhiteKnight.png")).getImage().
-            getScaledInstance( 100, 100,  java.awt.Image.SCALE_SMOOTH ));
-    private final ImageIcon reina = new ImageIcon(new ImageIcon(getClass()
-            .getResource("images/WhiteQueen.png")).getImage().
-            getScaledInstance( 100, 100,  java.awt.Image.SCALE_SMOOTH ));
-    private final ImageIcon rei = new ImageIcon(new ImageIcon(getClass()
-            .getResource("images/WhiteKing.png")).getImage().
-            getScaledInstance( 100, 100,  java.awt.Image.SCALE_SMOOTH ));
-    private final ImageIcon torre = new ImageIcon(new ImageIcon(getClass()
-            .getResource("images/WhiteRook.png")).getImage().
-            getScaledInstance( 100, 100,  java.awt.Image.SCALE_SMOOTH ));
-    private final ImageIcon peo = new ImageIcon(new ImageIcon(getClass()
-            .getResource("images/WhitePawn.png")).getImage().
-            getScaledInstance( 100, 100,  java.awt.Image.SCALE_SMOOTH ));
-    
-    JButton casella;
+    private View view;
+    private int x;
+    private int y;
 
-    public ChoosePieceDialog(JFrame frame, Control control) {
+    public ChoosePieceDialog(View frame, int x, int y) {
         super(frame, "Choose yor piece", true);
-        casella = b;
-        this.control=control;
+        this.view = frame;
+        this.x = x;
+        this.y = y;
         panel = new JPanel();
-        createButtonWithIcon(cavall);
-        createButtonWithIcon(rei);
-        createButtonWithIcon(reina);
-        createButtonWithIcon(torre);
-        createButtonWithIcon(peo);
+        createButtonWithIcon(Imatge.CAVALL,"cavall");
+        createButtonWithIcon(Imatge.REI,"rei");
+        createButtonWithIcon(Imatge.REINA,"reina");
+        createButtonWithIcon(Imatge.TORRE,"torre");
+        createButtonWithIcon(Imatge.PEO,"peo");
         this.add(panel);   
         setLocationRelativeTo(frame);
         setVisible(true);
     }
-    
-    
 
-    private void createButtonWithIcon(ImageIcon icon) {
-        JButton button = new JButton(icon);
+    private void createButtonWithIcon(Imatge icon, String select) {
+        JButton button = new JButton(icon.getIcon());
         button.setPreferredSize(new Dimension(100, 100));
         button.addActionListener((ActionEvent) -> {
-            
-            casella.setIcon(icon);
+            view.notifySelection(select, x, y);
             dispose();
         });
         panel.add(button);

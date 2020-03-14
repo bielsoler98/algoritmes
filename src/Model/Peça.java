@@ -23,11 +23,12 @@ public abstract class Peça {
         tauler = new Tauler(8);
         position = getCasella(x, y);
         this.img = img;
+        visit(position);
         torn =0;
     }
 
-    public Tauler getTauler() {
-        return tauler;
+    public Casella[][] getTauler() {
+        return tauler.getTauler();
     }
 
     abstract boolean validMove(Casella desti);
@@ -36,7 +37,7 @@ public abstract class Peça {
         position = getCasella(x,y);
     }
 
-    protected final Casella getPosition() {
+    public final Casella getPosition() {
         return position;
     }
 
@@ -73,15 +74,7 @@ public abstract class Peça {
         tauler = t;
     }
 
-    boolean hasFinished() {
+    public boolean hasFinished() {
         return position.getTorn() == tauler.getNCasella();
-    }
-    
-    public void showSolution() {
-        for(int i = 0; i < tauler.getTauler().length; i++){
-            for (int j = 0; j < tauler.getTauler()[i].length; j++) {
-                Reines.view.setNumberToCasilla(i, j, tauler.getTauler()[i][j].getTorn());
-            }
-        }
     }
 }

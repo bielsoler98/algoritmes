@@ -6,6 +6,12 @@
 package View;
 
 import Control.Control;
+import Model.Casella;
+import Model.Cavall;
+import Model.Peo;
+import Model.Rei;
+import Model.Reina;
+import Model.Torre;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -31,7 +37,6 @@ public class View extends JFrame {
 
     private JPanel panel;
     private JPanel grid;
-    private final JFrame context = this;
     private JButton[][] chessBoardSquares;
     private Control control;
 
@@ -109,19 +114,33 @@ public class View extends JFrame {
                 final int x = ii;
                 final int y = jj;
                 b.addActionListener((ActionEvent) -> {
-                   JDialog d = new ChoosePieceDialog(context, control);
+                   JDialog d = new ChoosePieceDialog(this, x, y);
                 });
                 chessBoardSquares[ii][jj] = b;
                 grid.add(b);
             }
         }
     }
-
-    public void showDialog() {
-        
-        
+    public void notifySelection(String select, int x, int y){
+        control.selectMethod(select, x, y);
+        switch(select){
+            case "Cavall": 
+                chessBoardSquares[x][y].setIcon(Imatge.CAVALL.getIcon());
+                break;
+            case "Reina": 
+                chessBoardSquares[x][y].setIcon(Imatge.REINA.getIcon());
+                break;
+            case "Peo": 
+                chessBoardSquares[x][y].setIcon(Imatge.PEO.getIcon());
+                break;
+            case "Rei": 
+                chessBoardSquares[x][y].setIcon(Imatge.REI.getIcon());
+                break;
+            case "Torre": 
+                chessBoardSquares[x][y].setIcon(Imatge.TORRE.getIcon());
+                break;   
+        }
     }
-
     public void setNumberToCasilla(int x, int y, int number) {
         chessBoardSquares[x][y].setText(Integer.toString(number));
         chessBoardSquares[x][y].setFont(new Font("Arial", Font.PLAIN, 64));

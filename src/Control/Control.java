@@ -20,20 +20,10 @@ import View.View;
  */
 public class Control {
     
-    private View vista;
+    private View view;
     
     public Control(View view){
-        
-        vista = view;
-        
-        Peça vac = new Cavall(0, 0, null);
-        vac.visit(vac.getPosition());
-        if (backtracking(vac)) {
-            System.out.println(vac.tauler);
-            vac.showSolution();
-        } else {
-            System.out.println("Aquesta peça no pot recorrer tot el tauler");
-        }
+        this.view = view;
     }
     
     public void selectMethod(String pieza, int x, int y){
@@ -55,14 +45,26 @@ public class Control {
                 p = new Torre(x,y,null);
                 break;   
         }
-        backtracking(p);
+        if (backtracking(p)) {
+            showSolution(p);
+        } else {
+            System.out.println("Aquesta peça no pot recorrer tot el tauler");
+        }
     }
     
-    private static boolean backtracking(Peça p) {
+    public void showSolution(Peça p) {
+        for(int i = 0; i < p.getTauler().length; i++){
+            for (int j = 0; j < p.getTauler()[i].length; j++) {
+                view.setNumberToCasilla(i, j, p.getTauler()[i][j].getTorn());
+            }
+        }
+    }
+    
+    private boolean backtracking(Peça p) {
         if (p.hasFinished()) {
             return true;
         } else {
-            for (Casella[] tauler : p.tauler.getTauler()) {
+            for (Casella[] tauler : p.getTauler()) {
                 for (Casella desti : tauler) {
                     if (p.validMove(desti)) {
                         Casella inici = p.getPosition();
