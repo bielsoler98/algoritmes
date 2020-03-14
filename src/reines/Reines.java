@@ -13,19 +13,23 @@ import View.View;
  */
 public class Reines {
 
+    
+    
+    public static View f;
+
     public static void main(String[] args) {
         Peça vac = new Cavall(0, 0, null);
         startView();
         vac.visit(vac.getPosition());
         if (backtracking(vac)) {
             System.out.println(vac.tauler);
+            vac.showSolution();
         } else {
             System.out.println("Aquesta peça no pot recorrer tot el tauler");
         }
     }
 
     private static boolean backtracking(Peça p) {
-//        System.out.println(p.tauler);
         if (p.hasFinished()) {
             return true;
         } else {
@@ -47,7 +51,7 @@ public class Reines {
     }
 
     private static void startView() {
-        View f = new View();
+        f = new View();
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.setLocationByPlatform(true);
         f.pack();

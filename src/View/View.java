@@ -13,9 +13,12 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,6 +32,10 @@ import javax.swing.border.EmptyBorder;
 public class View extends JFrame {
 
     JPanel panel;
+    JPanel grid;
+    private final JFrame context = this;
+    JButton[][] chessBoardSquares;
+   
 
     public View() {
         panel = new JPanel(new BorderLayout(3, 3));
@@ -39,7 +46,7 @@ public class View extends JFrame {
     }
 
     private void initChessBoard() {
-        JPanel grid = new JPanel(new GridLayout(0, 8)) {
+        grid = new JPanel(new GridLayout(0, 8)) {
             @Override
             public final Dimension getPreferredSize() {
                 Dimension d = super.getPreferredSize();
@@ -62,7 +69,7 @@ public class View extends JFrame {
         };
         JPanel boardConstrain = new JPanel(new GridBagLayout());
         boardConstrain.add(grid);
-        setCaselles(grid);
+        setCaselles();
         panel.add(boardConstrain);
     }
 
@@ -78,8 +85,8 @@ public class View extends JFrame {
         tools.addSeparator();
     }
 
-    private void setCaselles(JPanel grid) {
-        JButton[][] chessBoardSquares = new JButton[8][8];
+    private void setCaselles() {
+        chessBoardSquares = new JButton[8][8];
         Insets buttonMargin = new Insets(0, 0, 0, 0);
         for (int ii = 0; ii < chessBoardSquares.length; ii++) {
             for (int jj = 0; jj < chessBoardSquares[ii].length; jj++) {
@@ -92,9 +99,22 @@ public class View extends JFrame {
                 } else {
                     b.setBackground(Color.LIGHT_GRAY);
                 }
+                b.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        JDialog d = new ChoosePieceDialog(context, b);
+                        d.setLocationRelativeTo(context);
+                        d.setVisible(true);
+                    }
+                });
+                chessBoardSquares[ii][jj] = b;
                 grid.add(b);
             }
         }
     }
 
+    public void setNumberToCasilla(int x, int y, int number){
+        chessBoardSquares[x][y].setText(Integer.toString(number));
+        chessBoardSquares[x][y].setFont(new Font("Arial", Font.PLAIN, 64));
+    }
 }

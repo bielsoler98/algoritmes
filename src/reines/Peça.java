@@ -75,4 +75,12 @@ public abstract class Peça {
     boolean hasFinished() {
         return position.getTorn() == tauler.getNCasella();
     }
+    
+    public void showSolution() {
+        for(int i = 0; i < tauler.getTauler().length; i++){
+            for (int j = 0; j < tauler.getTauler()[i].length; j++) {
+                Reines.f.setNumberToCasilla(i, j, tauler.getTauler()[i][j].getTorn());
+            }
+        }
+    }
 }
