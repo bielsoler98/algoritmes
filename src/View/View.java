@@ -66,7 +66,7 @@ public class View extends JFrame {
     }
     
     
-
+    //PERMITE REDIMENSIONAR EL TABLERO
     private void initChessBoard() {
         grid = new JPanel(new GridLayout(0, 8)) {
             @Override
@@ -95,17 +95,22 @@ public class View extends JFrame {
         panel.add(boardConstrain);
     }
 
+    //PINTA LA BARRA Y EL BOTON INICIAR
     private void initToolbar() {
         JToolBar tools = new JToolBar();
         panel.add(tools, BorderLayout.PAGE_START);
         tools.setFloatable(false);
         JButton iniciar = new JButton("Iniciar");
         iniciar.addActionListener((ActionEvent) -> {
-            control.start();
+           if (control == null) {
+                control= new Control(this);
+           }
+           control.start();
         });
         tools.add(iniciar);
     }
 
+    //PINTA LAS CASILLAS DEL TABLERO
     private void setCaselles() {
         chessBoardSquares = new JButton[8][8];
         Insets buttonMargin = new Insets(0, 0, 0, 0);
@@ -159,5 +164,6 @@ public class View extends JFrame {
     
     public void showMessage(){
         JOptionPane.showMessageDialog(this, "Aquesta peça no pot recorrer tot el tauler");
+        control = null;
     }
 }

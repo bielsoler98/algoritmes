@@ -27,10 +27,19 @@ public class Control extends Thread{
     }
    
     public void run(){
-        selectMethod(view.getPieza(), view.getxIcon(), view.getyIcon());
+        Peça p = selectMethod(view.getPieza(), view.getxIcon(), view.getyIcon());
+        solve(p);
     }
     
-    public void selectMethod(String pieza, int x, int y){
+    private void solve(Peça p){
+        if (backtracking(p)) {
+            showSolution(p);
+        } else {
+            view.showMessage();
+        }
+    }
+    
+    private Peça selectMethod(String pieza, int x, int y){
         Peça p = null;
         switch(pieza){
             case "cavall": 
@@ -49,11 +58,7 @@ public class Control extends Thread{
                 p = new Torre(x,y,null);
                 break;   
         }
-        if (backtracking(p)) {
-            showSolution(p);
-        } else {
-            view.showMessage();
-        }
+        return p;
     }
     
     public void showSolution(Peça p) {
