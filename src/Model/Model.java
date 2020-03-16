@@ -6,7 +6,10 @@
 package Model;
 
 import Control.Control;
+import View.Imatge;
+import java.awt.Image;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -26,14 +29,20 @@ public class Model {
     public void setControl(Control control) {
         this.control = control;
     }
+    
+    public Peça getPrimeraPeça(){
+        if(!peces.isEmpty()){
+            return peces.get(0);
+        }
+        return null;
+    }
 
     private void AddPeça(Peça p) {
         tauler.getTauler()[p.getX()][p.getY()].setTorn(0);
-        tauler.setMaxTorn(tauler.getSize() - peces.size() -1);
+        tauler.setMaxTorn(tauler.getSize() - peces.size());
         peces.add(p);
         peces.forEach((Peça it) -> {
             it.setTauler(tauler);
-            
         });
     }
 
@@ -51,6 +60,10 @@ public class Model {
 
     public void AddPeo(int x, int y) {
         AddPeça(new Peo(x, y));
+    }
+    
+    public void AddTorre(int x, int y) {
+        AddPeça(new Torre(x, y));
     }
 
     public Tauler getTauler() {

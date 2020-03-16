@@ -13,7 +13,9 @@ import Model.Peça;
 import Model.Rei;
 import Model.Reina;
 import Model.Torre;
+import View.Imatge;
 import View.View;
+import java.awt.Image;
 
 /**
  *
@@ -30,8 +32,9 @@ public class Control extends Thread{
     }
    
     public void run(){
-        Peça p = selectMethod(view.getPieza(), view.getxIcon(), view.getyIcon());
+        Peça p = model.getPrimeraPeça();
         solve(p);
+        System.out.println("");
     }
     
     private void solve(Peça p){
@@ -42,32 +45,35 @@ public class Control extends Thread{
         }
     }
     
-    private Peça selectMethod(String pieza, int x, int y){
-        Peça p = null;
+    public void createPeça(String pieza, int x, int y){
         switch(pieza){
             case "cavall": 
-                p = new Cavall(x, y);
+                model.AddCavall(x,y);
+                view.paintCavall(x,y);
                 break;
             case "reina": 
-                p = new Reina(x,y);
+                model.AddReina(x,y);
+                view.paintReina(x,y);
                 break;
             case "peo": 
-                p = new Peo(x,y);
+                model.AddPeo(x,y);
+                view.paintPeo(x,y);
                 break;
             case "rei": 
-                p = new Rei(x,y);
+                model.AddRei(x,y);
+                view.paintRei(x,y);
                 break;
             case "torre": 
-                p = new Torre(x,y);
+                model.AddTorre(x,y);
+                view.paintTorre(x,y);
                 break;   
         }
-        return p;
     }
     
     public void showSolution(Peça p) {
         for(int i = 0; i < p.getTauler().length; i++){
             for (int j = 0; j < p.getTauler()[i].length; j++) {
-                if(i != view.getxIcon() || j != view.getyIcon()){
+                if(p.getTauler()[i][j].getTorn()!=0){
                     view.setNumberToCasilla(i, j, p.getTauler()[i][j].getTorn());
                 }
             }

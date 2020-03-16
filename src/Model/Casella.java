@@ -14,7 +14,7 @@ public class Casella {
     private int torn;
     private int x;
     private int y;
-    private static int NOT_VISITED = -1;
+    private final int NOT_VISITED = -1;
     
     public Casella(int x, int y) {
         this.x = x;

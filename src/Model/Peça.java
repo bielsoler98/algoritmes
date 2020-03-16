@@ -5,6 +5,8 @@
  */
 package Model;
 
+import View.Imatge;
+import java.awt.Image;
 import javax.swing.ImageIcon;
 import reines.Reines;
 
@@ -22,7 +24,7 @@ public abstract class Peça {
     public Peça(int x, int y) {
         this.x = x;
         this.y = y;
-        torn = 0;
+        torn = 1;
     }
 
     public Casella[][] getTauler() {
@@ -44,17 +46,6 @@ public abstract class Peça {
         return y;
     }
 
-    public Casella nextMove() {
-        for (int i = 0; i < taulerCami.getTauler().length; i++) {
-            for (int j = 0; j < taulerCami.getTauler()[i].length; j++) {
-                if (validMove(i, j)) {
-                    return taulerCami.getTauler()[i][j];
-                }
-            }
-        }
-        return null;
-    }
-
     public void visit(int x, int y) {
         getTauler()[x][y].setTorn(torn);
         setPosition(x, y);
@@ -62,9 +53,9 @@ public abstract class Peça {
     }
 
     public void getBack(int x, int y) {
-        getTauler()[x][y].setTorn(-1);
-        setPosition(x, y);
         torn--;
+        getTauler()[this.x][this.y].setTorn(-1);
+        setPosition(x, y);
     }
 
     public Casella getCasella(int x, int y) {

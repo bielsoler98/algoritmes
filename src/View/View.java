@@ -33,9 +33,6 @@ public class View extends JFrame{
     private JButton[][] chessBoardSquares;
     private JPanel boardConstrain;
     private Control control;
-    private int xIcon;
-    private int yIcon;
-    private String pieza;
 
     public View() {
         panel = new JPanel(new BorderLayout(3, 3));
@@ -53,20 +50,7 @@ public class View extends JFrame{
     public void setControlador(Control con) {
         control = con;
     }
-
-    public int getxIcon() {
-        return xIcon;
-    }
-
-    public int getyIcon() {
-        return yIcon;
-    }
-
-    public String getPieza() {
-        return pieza;
-    }
-    
-    
+       
     //PERMITE REDIMENSIONAR EL TABLERO
     private void initChessBoard() {
         grid = new JPanel(new GridLayout(0, 8)) {
@@ -107,9 +91,6 @@ public class View extends JFrame{
            clearView();
         });
         iniciar.addActionListener((ActionEvent) -> {
-           if (control == null) {
-                control= new Control(this);
-           }
            control.start();
         });
         tools.add(iniciar);
@@ -135,35 +116,38 @@ public class View extends JFrame{
                 final int x = ii;
                 final int y = jj;
                 b.addActionListener((ActionEvent) -> {
-                   this.xIcon = x;
-                   this.yIcon = y;
-                   JDialog d = new ChoosePieceDialog(this);
+                   JDialog d = new ChoosePieceDialog(this,x,y);
                 });
                 chessBoardSquares[ii][jj] = b;
                 grid.add(b);
             }
         }
     }
-    public void notifySelection(String select){
-        pieza=select;
-        switch(select){
-            case "cavall": 
-                chessBoardSquares[xIcon][yIcon].setIcon(Imatge.CAVALL.getIcon());
-                break;
-            case "reina": 
-                chessBoardSquares[xIcon][yIcon].setIcon(Imatge.REINA.getIcon());
-                break;
-            case "peo": 
-                chessBoardSquares[xIcon][yIcon].setIcon(Imatge.PEO.getIcon());
-                break;
-            case "rei": 
-                chessBoardSquares[xIcon][yIcon].setIcon(Imatge.REI.getIcon());
-                break;
-            case "torre": 
-                chessBoardSquares[xIcon][yIcon].setIcon(Imatge.TORRE.getIcon());
-                break;   
-        }
+    
+    private void paintPeça(int x, int y, Imatge img){
+        chessBoardSquares[x][y].setIcon(img.getIcon());
     }
+    
+    public void paintCavall(int x, int y){
+        paintPeça(x,y,Imatge.CAVALL);
+    }
+    
+    public void paintPeo(int x, int y){
+        paintPeça(x,y,Imatge.PEO);
+    }
+    
+    public void paintTorre(int x, int y){
+        paintPeça(x,y,Imatge.TORRE);
+    }
+    
+    public void paintRei(int x, int y){
+        paintPeça(x,y,Imatge.REI);
+    }
+    
+    public void paintReina(int x, int y){
+        paintPeça(x,y,Imatge.REINA);
+    }
+    
     public void setNumberToCasilla(int x, int y, int number) {
         chessBoardSquares[x][y].setText(Integer.toString(number));
         chessBoardSquares[x][y].setFont(new Font("Arial", Font.PLAIN, 64));
@@ -171,7 +155,6 @@ public class View extends JFrame{
     
     public void showMessage(){
         JOptionPane.showMessageDialog(this, "Aquesta peça no pot recorrer tot el tauler");
-        control = null;
     }
 
     private void clearView() {
@@ -183,4 +166,40 @@ public class View extends JFrame{
         add(panel);
         repaint();
     }
+    
+    public class ChoosePieceDialog extends JDialog {
+    
+    private JPanel panel;
+    private View view;
+    private int peçaX;
+    private int peçaY;
+    
+    public ChoosePieceDialog(View frame, int x, int y) {
+        super(frame, "Choose yor piece", true);
+        this.view = frame;
+        this.peçaX = x;
+        this.peçaY = y;
+        panel = new JPanel();
+        createButtonWithIcon(Imatge.CAVALL,"cavall");
+        createButtonWithIcon(Imatge.REI,"rei");
+        createButtonWithIcon(Imatge.REINA,"reina");
+        createButtonWithIcon(Imatge.TORRE,"torre");
+        createButtonWithIcon(Imatge.PEO,"peo");
+        getContentPane().add(panel);
+        pack();
+        setLocationRelativeTo(view);
+        setVisible(true);
+    }
+
+    private void createButtonWithIcon(Imatge icon, String select) {
+        JButton button = new JButton(icon.getIcon());
+        button.setPreferredSize(new Dimension(100, 100));
+        button.addActionListener((ActionEvent) -> {
+            control.createPeça(select,peçaX,peçaY);
+            dispose();
+        });
+        panel.add(button);
+    }
+}
+
 }

@@ -5,6 +5,8 @@
  */
 package Model;
 
+import View.Imatge;
+import java.awt.Image;
 import javax.swing.ImageIcon;
 
 public class Peo extends Peça {

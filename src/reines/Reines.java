@@ -26,6 +26,7 @@ public class Reines {
 
     private void inicio() {
         view = new View();
+        model = new Model();
         control = new Control(view, model);
         view.setControlador(control);
     }

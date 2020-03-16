@@ -5,6 +5,8 @@
  */
 package Model;
 
+import View.Imatge;
+import java.awt.Image;
 import javax.swing.ImageIcon;
 
 /**
@@ -13,13 +15,14 @@ import javax.swing.ImageIcon;
  */
 public class Rei extends Peça {
 
-    public Rei(int x, int y) {
+    public Rei(int x, int y){
         super(x, y);
     }
 
     @Override
     public boolean validMove(int x, int y) {
-        return ((getXDistance(x) < 2 && getYDistance(y)< 2)
-                && (x != 0 || y != 0))&& !hasVisited(x, y);
+        return ((getXDistance(x)<2 && getYDistance(y)<2)
+                    && (getYDistance(y) != 0 || getXDistance(x)!=0)) && !hasVisited(x,y);
     }
+
 }
