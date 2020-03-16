@@ -14,71 +14,104 @@ import reines.Reines;
  */
 public abstract class Peça {
 
-    protected Casella position;
-    private ImageIcon img;
-    protected Tauler tauler;
+    private int x;
+    private int y;
+    protected Tauler taulerCami;
     private int torn;
-    
-    public Peça(int x, int y, ImageIcon img) {
-        tauler = new Tauler(8);
-        position = getCasella(x, y);
-        this.img = img;
-        torn =0;
-        visit(position);
+
+    public Peça(int x, int y) {
+        this.x = x;
+        this.y = y;
+        torn = 0;
     }
 
     public Casella[][] getTauler() {
-        return tauler.getTauler();
+        return taulerCami.getTauler();
     }
 
-    public abstract boolean validMove(Casella desti);
+    public abstract boolean validMove(int x, int y);
 
     public void setPosition(int x, int y) {
-        position = getCasella(x,y);
+        this.x = x;
+        this.y = y;
     }
 
-    public final Casella getPosition() {
-        return position;
+    public final int getX() {
+        return x;
+    }
+
+    public final int getY() {
+        return y;
     }
 
     public Casella nextMove() {
-        for (int i = 0; i < tauler.getTauler().length; i++) {
-            for (int j = 0; j < tauler.getTauler()[i].length; j++) {
-                if (validMove(tauler.getTauler()[i][j])) {
-                    return tauler.getTauler()[i][j];
+        for (int i = 0; i < taulerCami.getTauler().length; i++) {
+            for (int j = 0; j < taulerCami.getTauler()[i].length; j++) {
+                if (validMove(i, j)) {
+                    return taulerCami.getTauler()[i][j];
                 }
             }
         }
         return null;
     }
 
-    public void visit(Casella c) {
-        getTauler()[c.getX()][c.getY()].setTorn(torn);
-        setPosition(c.getX(), c.getY());
+    public void visit(int x, int y) {
+        getTauler()[x][y].setTorn(torn);
+        setPosition(x, y);
         torn++;
-//        System.out.println("GOTO: ["+ tauler.getTauler()[c.getX()][c.getY()].getX()+ " , " + tauler.getTauler()[c.getX()][c.getY()].getY() + "] en el torn "+ torn);
     }
-    
-    public void getBack(Casella c){
-        getTauler()[position.getX()][position.getY()].setTorn(-1);
-        setPosition(c.getX(), c.getY());
+
+    public void getBack(int x, int y) {
+        getTauler()[x][y].setTorn(-1);
+        setPosition(x, y);
         torn--;
-//        System.out.println("RESET: ["+ tauler.getTauler()[c.getX()][c.getY()].getX()+ " , " + tauler.getTauler()[c.getX()][c.getY()].getY() + "]en el torn "+ torn);
     }
-    
-    public Casella getCasella(int x, int y){
+
+    public Casella getCasella(int x, int y) {
         return getTauler()[x][y];
-    }    
-   
-    protected final void setTauler(Tauler t){
-        tauler = t;
+    }
+
+    protected final void setTauler(Tauler t) {
+        taulerCami = t;
+    }
+
+    public int getTorn() {
+        return torn;
     }
 
     public boolean hasFinished() {
-        return position.getTorn() == tauler.getNCasella();
+        return torn == taulerCami.getMaxTorn();
+    }
+
+    protected boolean isDiagonal(int x, int y) {
+        return (Math.abs(this.x - x) == Math.abs(this.y - y));
+    }
+
+    protected boolean isUp(int x, int y) {
+        return (x == this.x && y > this.y);
+    }
+
+    protected boolean isDown(int x, int y) {
+        return (x == this.x && y < this.y);
+    }
+
+    protected boolean isLeft(int x, int y) {
+        return (y == this.y && x > this.x);
+    }
+
+    protected boolean isRight(int x, int y) {
+        return (y == this.y && x < this.x);
+    }
+
+    protected int getXDistance(int x) {
+        return Math.abs(x - this.x);
+    }
+
+    protected int getYDistance(int y) {
+        return Math.abs(y - this.y);
     }
     
-    public int borrar(){
-        return position.getTorn();
+    protected boolean hasVisited(int x, int y){
+        return taulerCami.getTauler()[x][y].isVisited();
     }
 }

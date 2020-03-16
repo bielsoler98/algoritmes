@@ -7,6 +7,7 @@ package Control;
 
 import Model.Casella;
 import Model.Cavall;
+import Model.Model;
 import Model.Peo;
 import Model.Peça;
 import Model.Rei;
@@ -21,9 +22,11 @@ import View.View;
 public class Control extends Thread{
     
     private View view;
+    private Model model;
     
-    public Control(View view){
+    public Control(View view, Model model){
         this.view = view;
+        this.model = model;
     }
    
     public void run(){
@@ -43,19 +46,19 @@ public class Control extends Thread{
         Peça p = null;
         switch(pieza){
             case "cavall": 
-                p = new Cavall(x, y, null);
+                p = new Cavall(x, y);
                 break;
             case "reina": 
-                p = new Reina(x,y,null);
+                p = new Reina(x,y);
                 break;
             case "peo": 
-                p = new Peo(x,y,null);
+                p = new Peo(x,y);
                 break;
             case "rei": 
-                p = new Rei(x,y,null);
+                p = new Rei(x,y);
                 break;
             case "torre": 
-                p = new Torre(x,y,null);
+                p = new Torre(x,y);
                 break;   
         }
         return p;
@@ -75,15 +78,16 @@ public class Control extends Thread{
         if (p.hasFinished()) {
             return true;
         } else {
-            for (Casella[] tauler : p.getTauler()) {
-                for (Casella desti : tauler) {
-                    if (p.validMove(desti)) {
-                        Casella inici = p.getPosition();
-                        p.visit(desti);
+            for (int i = 0; i < p.getTauler().length; i++) {
+                for (int j = 0; j < p.getTauler()[i].length; j++) {
+                    if (p.validMove(i, j)) {
+                        int x = p.getX();
+                        int y = p.getY();
+                        p.visit(i, j);
                         if (backtracking(p)) {
                             return true;
                         } else {
-                            p.getBack(inici);
+                            p.getBack(x, y);
                         }
                     }
                 }

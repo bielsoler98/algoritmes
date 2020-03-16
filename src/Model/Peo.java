@@ -9,12 +9,12 @@ import javax.swing.ImageIcon;
 
 public class Peo extends Peça {
 
-    public Peo(int x, int y, ImageIcon img) {
-        super(x, y, img);
+    public Peo(int x, int y) {
+        super(x, y);
     }
 
     @Override
-    public boolean validMove(Casella desti) {
-        return (position.isUp(desti) && (position.getYDistance(desti) == 1));
+    public boolean validMove(int x, int y) {
+        return (isUp(x, y) && (getYDistance(y) == 1));
     }
 }

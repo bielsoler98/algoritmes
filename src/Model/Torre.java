@@ -13,14 +13,14 @@ import javax.swing.ImageIcon;
  */
 public class Torre extends Peça{
 
-    public Torre(int x, int y, ImageIcon img) {
-        super(x, y, img);
+    public Torre(int x, int y) {
+        super(x, y);
     }
 
     @Override
-    public boolean validMove(Casella desti) {
-        return (position.isUp(desti) || position.isDown(desti) || 
-                position.isLeft(desti) || position.isRight(desti)) && !desti.isVisited();
+    public boolean validMove(int x, int y) {
+        return (isUp(x, y) || isDown(x, y) || 
+                isLeft(x, y) || isRight(x, y)) && !hasVisited(x, y);
     }
     
 }

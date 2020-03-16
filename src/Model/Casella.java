@@ -14,11 +14,12 @@ public class Casella {
     private int torn;
     private int x;
     private int y;
+    private static int NOT_VISITED = -1;
     
     public Casella(int x, int y) {
         this.x = x;
         this.y = y;
-        torn = -1;
+        torn = NOT_VISITED;
     }
     
     public int getX() {
@@ -38,33 +39,7 @@ public class Casella {
     }
     
     public boolean isVisited(){
-        return torn != -1;
+        return torn != NOT_VISITED;
     }
     
-    public boolean isDiagonal(Casella c) {
-        return (Math.abs(c.getX() - x) == Math.abs(c.getY() - y));
-    }
-
-    public boolean isUp(Casella c) {
-        return (x == c.getX() && y > c.getY());
-    }
-
-    public boolean isDown(Casella c) {
-        return (x == c.getX() && y < c.getY());
-    }
-
-    public boolean isLeft(Casella c) {
-        return (y == c.getY() && x > c.getX());
-    }
-
-    public boolean isRight(Casella c) {
-        return (y == c.getY() && x < c.getX());
-    }
-    
-    public int getXDistance(Casella c){
-        return Math.abs(x - c.x);
-    }
-    public int getYDistance(Casella c){
-        return Math.abs(y - c.y);
-    }
 }

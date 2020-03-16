@@ -13,14 +13,14 @@ import javax.swing.ImageIcon;
  */
 public class Reina extends Peça {
 
-    public Reina(int x, int y, ImageIcon img) {
-        super(x, y, img);
+    public Reina(int x, int y) {
+        super(x, y);
     }
 
     @Override
-    public boolean validMove(Casella desti) {
-        return ((position.isDiagonal(desti) || position.isUp(desti) || 
-                position.isDown(desti) || position.isRight(desti) || 
-                position.isLeft(desti)) && !desti.isVisited());
+    public boolean validMove(int x, int y) {
+        return ((isDiagonal(x, y) || isUp(x, y) || 
+                isDown(x, y) || isRight(x, y) || 
+                isLeft(x, y)) && !hasVisited(x, y));
     }
 }

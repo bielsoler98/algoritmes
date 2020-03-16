@@ -13,13 +13,13 @@ import javax.swing.ImageIcon;
  */
 public class Rei extends Peça {
 
-    public Rei(int x, int y, ImageIcon img) {
-        super(x, y, img);
+    public Rei(int x, int y) {
+        super(x, y);
     }
 
     @Override
-    public boolean validMove(Casella desti) {
-        return ((position.getXDistance(desti) == 1 && position.getYDistance(desti)<2)
-                || (position.getYDistance(desti) == 1) && position.getXDistance(desti)<2)&& !desti.isVisited();
+    public boolean validMove(int x, int y) {
+        return ((getXDistance(x) < 2 && getYDistance(y)< 2)
+                && (x != 0 || y != 0))&& !hasVisited(x, y);
     }
 }

@@ -9,10 +9,11 @@ package Model;
  *
  * @author biels
  */
-class Tauler {
+public class Tauler {
 
     private Casella[][] tauler;
     private int tam;
+    int maxTorn;
 
     public Tauler(int tam) {
         tauler = new Casella[tam][tam];
@@ -21,6 +22,7 @@ class Tauler {
     }
 
     private void inicialitzaTauler() {
+        maxTorn = getSize() -1;
         for (int i = 0; i < tam; i++) {
             for (int j = 0; j < tam; j++) {
                 tauler[i][j] = new Casella(i, j);
@@ -49,8 +51,29 @@ class Tauler {
      public boolean isInBounds(Casella c) {
         return ((c.getX() >= 0 && c.getX() < tam) && (c.getY() >= 0 && c.getY() < tam));
     }
+     
+     int getSize(){
+         return tam*tam;
+     }
+     
 
-    public int getNCasella() {
-        return tam*tam-1;
+    public int getCasellesLliures() {
+        int n = 0;
+        for (int i = 0; i < tauler.length; i++) {
+            for (int j = 0; j < tauler[i].length; j++) {
+                if(!tauler[i][j].isVisited()){
+                    n++;
+                }
+            }
+        }
+        return n;
+    }
+
+    void setMaxTorn(int i) {
+        maxTorn = i;
+    }
+
+    int getMaxTorn() {
+        return maxTorn;
     }
 }

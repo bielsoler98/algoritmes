@@ -26,11 +26,12 @@ import javax.swing.border.EmptyBorder;
  *
  * @author biels
  */
-public class View extends JFrame {
+public class View extends JFrame{
 
     private JPanel panel;
     private JPanel grid;
     private JButton[][] chessBoardSquares;
+    private JPanel boardConstrain;
     private Control control;
     private int xIcon;
     private int yIcon;
@@ -89,7 +90,7 @@ public class View extends JFrame {
                 return new Dimension(s, s);
             }
         };
-        JPanel boardConstrain = new JPanel(new GridBagLayout());
+        boardConstrain = new JPanel(new GridBagLayout());
         boardConstrain.add(grid);
         setCaselles();
         panel.add(boardConstrain);
@@ -101,6 +102,10 @@ public class View extends JFrame {
         panel.add(tools, BorderLayout.PAGE_START);
         tools.setFloatable(false);
         JButton iniciar = new JButton("Iniciar");
+        JButton reset = new JButton("Reset");
+        reset.addActionListener((ActionEvent) -> {
+           clearView();
+        });
         iniciar.addActionListener((ActionEvent) -> {
            if (control == null) {
                 control= new Control(this);
@@ -108,6 +113,8 @@ public class View extends JFrame {
            control.start();
         });
         tools.add(iniciar);
+        tools.addSeparator();
+        tools.add(reset);
     }
 
     //PINTA LAS CASILLAS DEL TABLERO
@@ -165,5 +172,15 @@ public class View extends JFrame {
     public void showMessage(){
         JOptionPane.showMessageDialog(this, "Aquesta peça no pot recorrer tot el tauler");
         control = null;
+    }
+
+    private void clearView() {
+        control = null;
+        panel.remove(boardConstrain);
+        initChessBoard();
+        initToolbar();
+        this.remove(panel);
+        add(panel);
+        repaint();
     }
 }
