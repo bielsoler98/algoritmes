@@ -36,6 +36,10 @@ public class Model {
         }
         return null;
     }
+    
+    public boolean isEmptyPeces(){
+        return peces.isEmpty();
+    }
 
     private void AddPeça(Peça p) {
         tauler.getTauler()[p.getX()][p.getY()].setTorn(0);
