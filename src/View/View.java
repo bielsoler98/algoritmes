@@ -5,7 +5,6 @@
  */
 package View;
 
-import Control.Control;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -14,6 +13,8 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -21,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import reines.ChessBoardSolver;
 import reines.TipusPeça;
@@ -35,11 +37,13 @@ public class View extends JFrame implements ChessBoardSolver.View {
     private JPanel grid;
     private JButton[][] chessBoardSquares;
     private JPanel boardConstrain;
-    private Control control;
+    private ChessBoardSolver.Controller control;
     private JLabel toolbarLabel;
+    private final View context = this;
 
     public View() {
         initView();
+        setTitle("ChessBoard Solver");
         setLocationByPlatform(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationByPlatform(true);
@@ -61,7 +65,7 @@ public class View extends JFrame implements ChessBoardSolver.View {
         panel.setBorder(new EmptyBorder(5, 5, 5, 5));
     }
 
-    public void setControlador(Control con) {
+    public void setControlador(ChessBoardSolver.Controller con) {
         control = con;
     }
 
@@ -103,8 +107,11 @@ public class View extends JFrame implements ChessBoardSolver.View {
         JButton reset = new JButton("Reset");
         reset.addActionListener((ActionEvent) -> {
             control.reset();
+            iniciar.setEnabled(true);
         });
         iniciar.addActionListener((ActionEvent) -> {
+            setChssBoardNotClickable();
+            iniciar.setEnabled(false);
             control.solveChessBoard();
         });
         toolbarLabel = new JLabel();
@@ -133,7 +140,7 @@ public class View extends JFrame implements ChessBoardSolver.View {
                 final int x = ii;
                 final int y = jj;
                 b.addActionListener((ActionEvent) -> {
-                    JDialog d = new ChoosePieceDialog(this, x, y);
+                    JDialog d = new ChoosePieceDialog(x, y);
                 });
                 chessBoardSquares[ii][jj] = b;
                 grid.add(b);
@@ -141,11 +148,13 @@ public class View extends JFrame implements ChessBoardSolver.View {
         }
     }
 
+    @Override
     public void paintPeça(int x, int y, TipusPeça tipus) {
         Imatge img = getImage(tipus);
         chessBoardSquares[x][y].setIcon(img.getIcon());
     }
 
+    @Override
     public void setNumberToCasilla(int x, int y, int number) {
         chessBoardSquares[x][y].setText(Integer.toString(number));
         chessBoardSquares[x][y].setFont(new Font("Arial", Font.PLAIN, 64));
@@ -158,6 +167,7 @@ public class View extends JFrame implements ChessBoardSolver.View {
 
     @Override
     public void showPutOnePieceMessage() {
+        resetView();
         JOptionPane.showMessageDialog(this, "Afegeix mínim una peça per iniciar el recorregut.");
     }
 
@@ -174,7 +184,7 @@ public class View extends JFrame implements ChessBoardSolver.View {
 
     private Imatge getImage(TipusPeça tipus) {
         Imatge img = null;
-        switch(tipus){
+        switch (tipus) {
             case CAVALL:
                 img = Imatge.CAVALL;
                 break;
@@ -194,16 +204,22 @@ public class View extends JFrame implements ChessBoardSolver.View {
         return img;
     }
 
+    private void setChssBoardNotClickable() {
+        for (JButton[] chessBoardSquare : chessBoardSquares) {
+            for (JButton chessBoardSquare1 : chessBoardSquare) {
+                chessBoardSquare1.removeActionListener(chessBoardSquare1.getActionListeners()[0]);
+            }
+        }
+    }
+
     private class ChoosePieceDialog extends JDialog {
 
         private final JPanel panel;
-        private final View view;
         private final int peçaX;
         private final int peçaY;
 
-        public ChoosePieceDialog(View frame, int x, int y) {
-            super(frame, "Choose yor piece", true);
-            this.view = frame;
+        public ChoosePieceDialog(int x, int y) {
+            super(context, "Choose yor piece", true);
             this.peçaX = x;
             this.peçaY = y;
             panel = new JPanel();
@@ -214,7 +230,7 @@ public class View extends JFrame implements ChessBoardSolver.View {
             createButtonWithIcon(Imatge.PEO, TipusPeça.PEO);
             getContentPane().add(panel);
             pack();
-            setLocationRelativeTo(view);
+            setLocationRelativeTo(context);
             setVisible(true);
         }
 
@@ -229,4 +245,62 @@ public class View extends JFrame implements ChessBoardSolver.View {
         }
     }
 
+    private class ChooseSizeBoardDialog extends JDialog {
+        private final JLabel labelSize;
+
+        public ChooseSizeBoardDialog() {
+            super(context, "Choose ChessBoard size", true);
+            JPanel chooserPanel = new JPanel();
+            JPanel acceptPannel = new JPanel();
+            
+            JButton min = createMinusButton();
+            chooserPanel.add(min);
+            labelSize = new JLabel("4", SwingConstants.CENTER);
+            labelSize.setPreferredSize(new Dimension(100,100));
+            labelSize.setFont(new Font("Calibri", Font.BOLD, 20));
+            chooserPanel.add(labelSize);
+            JButton sum = createPlusButton();
+            chooserPanel.add(sum);
+            
+            getContentPane().add(chooserPanel);
+            pack();
+            setLocationRelativeTo(context);
+            setVisible(true);
+        }
+
+        private JButton createButton(String buttonContent, ActionListener e) {
+            JButton button = new JButton(buttonContent);
+            button.setPreferredSize(new Dimension(50, 25));
+            button.addActionListener(e);
+            return button;
+        }
+
+        private JButton createMinusButton() {
+            ActionListener e = (ActionEvent e1) -> {
+                int size = Integer.parseInt(labelSize.getText());
+                if(size > 4){
+                    size--;
+                    labelSize.setText(Integer.toString(size));
+                }
+            };
+            return createButton("-", e);
+        }
+
+        private JButton createPlusButton() {
+            ActionListener e = (ActionEvent e1) -> {
+                int size = Integer.parseInt(labelSize.getText());
+                if(size < 8){
+                    size++;
+                    labelSize.setText(Integer.toString(size));
+                }
+            };
+            return createButton("+", e);
+        }
+        
+        private JButton createAcceptButton() {
+            ActionListener e = (ActionEvent e1) -> {
+            };
+            return createButton("Acceptar", e);
+        }
+    }
 }

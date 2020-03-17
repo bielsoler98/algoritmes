@@ -33,20 +33,6 @@ public class Tauler {
     public Casella[][] getTauler() {
         return tauler;
     }
-
-    @Override
-    public String toString() {
-        String s = "";
-        for (int i = 0; i < tauler.length; i++) {
-            s += "[";
-            for (int j = 0; j < tauler[i].length; j++) {
-                s += "\t" + (tauler[i][j].getTorn()!= -1 ? tauler[i][j].getTorn() : "x" );
-            }
-            s += "]\n";
-        }
-        s+="\n====================================================================================================================================================\n";
-        return s;
-    }
     
      public boolean isInBounds(Casella c) {
         return ((c.getX() >= 0 && c.getX() < tam) && (c.getY() >= 0 && c.getY() < tam));

@@ -7,7 +7,6 @@ package reines;
 
 import Control.Control;
 import Model.Model;
-import Model.Tauler;
 import View.View;
 
 /**

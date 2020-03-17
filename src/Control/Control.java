@@ -7,7 +7,6 @@ package Control;
 
 import Model.Model;
 import Model.Peça;
-import View.View;
 import reines.ChessBoardSolver;
 import reines.TipusPeça;
 
@@ -17,10 +16,10 @@ import reines.TipusPeça;
  */
 public class Control implements ChessBoardSolver.Controller{
 
-    private final View view;
-    private Model model;
+    private final ChessBoardSolver.View view;
+    private ChessBoardSolver.Model model;
 
-    public Control(View view, Model model) {
+    public Control(ChessBoardSolver.View view, ChessBoardSolver.Model model) {
         this.view = view;
         this.model = model;
     }

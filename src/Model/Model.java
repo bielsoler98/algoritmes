@@ -42,13 +42,27 @@ public class Model implements ChessBoardSolver.Model {
         p = getPeça(x, y, t);
         tauler.getTauler()[p.getX()][p.getY()].setTorn(0);
         tauler.setMaxTorn(tauler.getSize() - peces.size());
-        peces.add(p);
+        insertPeçaInList(p);
         peces.forEach((Peça it) -> {
             it.setTauler(tauler);
         });
     }
 
-    private Peça getPeça( int x, int y, TipusPeça t) {
+    private void insertPeçaInList(Peça p) {
+        boolean isIn = false;
+        for (int i = 0; i < peces.size(); i++) {
+            if(peces.get(i).getX() == p.getX() && peces.get(i).getY() == p.getY()){
+                peces.remove(i);
+                peces.add(i, p);
+                isIn = true;
+            }
+        }
+        if(!isIn){
+            peces.add(p);
+        }
+    }
+
+    private Peça getPeça(int x, int y, TipusPeça t) {
         Peça p = null;
         switch (t) {
             case CAVALL:

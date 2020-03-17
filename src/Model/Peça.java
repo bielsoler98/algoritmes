@@ -5,11 +5,6 @@
  */
 package Model;
 
-import View.Imatge;
-import java.awt.Image;
-import javax.swing.ImageIcon;
-import reines.Reines;
-
 /**
  *
  * @author biels
@@ -54,7 +49,7 @@ public abstract class Peça {
 
     public void getBack(int x, int y) {
         torn--;
-        getTauler()[this.x][this.y].setTorn(-1);
+        getTauler()[this.x][this.y].setTorn(Casella.NOT_VISITED);
         setPosition(x, y);
     }
 
