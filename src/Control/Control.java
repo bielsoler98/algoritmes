@@ -5,81 +5,78 @@
  */
 package Control;
 
-import Model.Casella;
-import Model.Cavall;
 import Model.Model;
-import Model.Peo;
 import Model.Peça;
-import Model.Rei;
-import Model.Reina;
-import Model.Torre;
-import View.Imatge;
 import View.View;
-import java.awt.Image;
 
 /**
  *
  * @author Andrea
  */
-public class Control extends Thread{
-    
+public class Control {
+
     private View view;
     private Model model;
-    
-    public Control(View view, Model model){
+
+    public Control(View view, Model model) {
         this.view = view;
         this.model = model;
     }
-   
-    public void run(){
-        Peça p = model.getPrimeraPeça();
-        solve(p);
-        System.out.println("");
+
+    public void solveChessBoard() {
+        if (!model.isEmptyPeces()) {
+            Peça p = model.getPrimeraPeça();
+            new Thread(() -> solve(p)).start();
+        } else {
+            view.showPutOnePieceMessage();
+        }
     }
-    
-    private void solve(Peça p){
+
+    private void solve(Peça p) {
+        view.setToolbarLabelContent("Calculant recorregut...");
         if (backtracking(p)) {
             showSolution(p);
         } else {
-            view.showMessage();
+            view.showCanNotSolveChessBoardMessage();
+        }
+        view.setToolbarLabelContent("");
+    }
+
+    public void createPeça(String pieza, int x, int y) {
+        switch (pieza) {
+            case "cavall":
+                model.AddCavall(x, y);
+                view.paintCavall(x, y);
+                break;
+            case "reina":
+                model.AddReina(x, y);
+                view.paintReina(x, y);
+                break;
+            case "peo":
+                model.AddPeo(x, y);
+                view.paintPeo(x, y);
+                break;
+            case "rei":
+                model.AddRei(x, y);
+                view.paintRei(x, y);
+                break;
+            case "torre":
+                model.AddTorre(x, y);
+                view.paintTorre(x, y);
+                break;
         }
     }
-    
-    public void createPeça(String pieza, int x, int y){
-        switch(pieza){
-            case "cavall": 
-                model.AddCavall(x,y);
-                view.paintCavall(x,y);
-                break;
-            case "reina": 
-                model.AddReina(x,y);
-                view.paintReina(x,y);
-                break;
-            case "peo": 
-                model.AddPeo(x,y);
-                view.paintPeo(x,y);
-                break;
-            case "rei": 
-                model.AddRei(x,y);
-                view.paintRei(x,y);
-                break;
-            case "torre": 
-                model.AddTorre(x,y);
-                view.paintTorre(x,y);
-                break;   
-        }
-    }
-    
+
     public void showSolution(Peça p) {
-        for(int i = 0; i < p.getTauler().length; i++){
+        for (int i = 0; i < p.getTauler().length; i++) {
             for (int j = 0; j < p.getTauler()[i].length; j++) {
-                if(p.getTauler()[i][j].getTorn()!=0){
+                if (p.getTauler()[i][j].getTorn() != 0) {
                     view.setNumberToCasilla(i, j, p.getTauler()[i][j].getTorn());
                 }
             }
         }
     }
-    
+
     private boolean backtracking(Peça p) {
         if (p.hasFinished()) {
             return true;
@@ -100,5 +97,10 @@ public class Control extends Thread{
             }
             return false;
         }
+    }
+
+    public void reset() {
+        view.resetView();
+        model = new Model();
     }
 }

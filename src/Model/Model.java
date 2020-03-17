@@ -6,10 +6,7 @@
 package Model;
 
 import Control.Control;
-import View.Imatge;
-import java.awt.Image;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
 
 /**
  *

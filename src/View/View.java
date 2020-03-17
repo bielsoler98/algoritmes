@@ -17,34 +17,47 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.border.EmptyBorder;
+import reines.ChessBoardSolver;
 
 /**
  *
  * @author biels
  */
-public class View extends JFrame{
+public class View extends JFrame implements ChessBoardSolver.View{
 
     private JPanel panel;
     private JPanel grid;
     private JButton[][] chessBoardSquares;
     private JPanel boardConstrain;
     private Control control;
+    private JLabel toolbarLabel;
 
     public View() {
-        panel = new JPanel(new BorderLayout(3, 3));
-        panel.setBorder(new EmptyBorder(5, 5, 5, 5));
-        initToolbar();
-        initChessBoard();
-        add(panel);
+        initView();
+        setLocationByPlatform(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationByPlatform(true);
-        pack();
         setMinimumSize(getSize());
         setVisible(true);
+    }
+
+    private void initView() {
+        initPanel();
+        initToolbar();
+        initChessBoard();
+        setToolbarLabelContent("Pot afegir més d'una peça però la primera que posi será la que farà el recorregut!!");
+        add(panel);
+        pack();
+    }
+
+    private void initPanel() {
+        panel = new JPanel(new BorderLayout(3, 3));
+        panel.setBorder(new EmptyBorder(5, 5, 5, 5));
     }
     
     public void setControlador(Control con) {
@@ -88,14 +101,17 @@ public class View extends JFrame{
         JButton iniciar = new JButton("Iniciar");
         JButton reset = new JButton("Reset");
         reset.addActionListener((ActionEvent) -> {
-           clearView();
+            control.reset();
         });
         iniciar.addActionListener((ActionEvent) -> {
-           control.start();
+           control.solveChessBoard();
         });
+        toolbarLabel = new JLabel();
         tools.add(iniciar);
         tools.addSeparator();
         tools.add(reset);
+        tools.addSeparator();
+        tools.add(toolbarLabel);
     }
 
     //PINTA LAS CASILLAS DEL TABLERO
@@ -153,21 +169,27 @@ public class View extends JFrame{
         chessBoardSquares[x][y].setFont(new Font("Arial", Font.PLAIN, 64));
     }
     
-    public void showMessage(){
-        JOptionPane.showMessageDialog(this, "Aquesta peça no pot recorrer tot el tauler");
-    }
-
-    private void clearView() {
-        control = null;
-        panel.remove(boardConstrain);
-        initChessBoard();
-        initToolbar();
-        this.remove(panel);
-        add(panel);
-        repaint();
+    @Override
+    public void showCanNotSolveChessBoardMessage(){
+        JOptionPane.showMessageDialog(this, "Aquesta peça no pot recorrer tot el tauler.");
     }
     
-    public class ChoosePieceDialog extends JDialog {
+    @Override
+    public void showPutOnePieceMessage(){
+        JOptionPane.showMessageDialog(this, "Afegeix mínim una peça per iniciar el recorregut.");
+    }
+
+    @Override
+    public void resetView() {
+        remove(panel);
+        initView();
+    }
+
+    public void setToolbarLabelContent(String s) {
+        toolbarLabel.setText(s);
+    }
+    
+    private class ChoosePieceDialog extends JDialog {
     
     private JPanel panel;
     private View view;
