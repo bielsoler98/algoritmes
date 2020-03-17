@@ -8,14 +8,16 @@ package Control;
 import Model.Model;
 import Model.Peça;
 import View.View;
+import reines.ChessBoardSolver;
+import reines.TipusPeça;
 
 /**
  *
  * @author Andrea
  */
-public class Control {
+public class Control implements ChessBoardSolver.Controller{
 
-    private View view;
+    private final View view;
     private Model model;
 
     public Control(View view, Model model) {
@@ -23,6 +25,7 @@ public class Control {
         this.model = model;
     }
 
+    @Override
     public void solveChessBoard() {
         if (!model.isEmptyPeces()) {
             Peça p = model.getPrimeraPeça();
@@ -42,29 +45,10 @@ public class Control {
         view.setToolbarLabelContent("");
     }
 
-    public void createPeça(String pieza, int x, int y) {
-        switch (pieza) {
-            case "cavall":
-                model.AddCavall(x, y);
-                view.paintCavall(x, y);
-                break;
-            case "reina":
-                model.AddReina(x, y);
-                view.paintReina(x, y);
-                break;
-            case "peo":
-                model.AddPeo(x, y);
-                view.paintPeo(x, y);
-                break;
-            case "rei":
-                model.AddRei(x, y);
-                view.paintRei(x, y);
-                break;
-            case "torre":
-                model.AddTorre(x, y);
-                view.paintTorre(x, y);
-                break;
-        }
+    @Override
+    public void createPeça(int x, int y, TipusPeça tipus) {
+        model.AddPeça(x, y, tipus);
+        view.paintPeça(x, y, tipus);
     }
 
     public void showSolution(Peça p) {
@@ -99,6 +83,7 @@ public class Control {
         }
     }
 
+    @Override
     public void reset() {
         view.resetView();
         model = new Model();

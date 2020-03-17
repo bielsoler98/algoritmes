@@ -5,40 +5,41 @@
  */
 package Model;
 
-import Control.Control;
 import java.util.ArrayList;
+import reines.ChessBoardSolver;
+import reines.TipusPeça;
 
 /**
  *
  * @author biels
  */
-public class Model {
+public class Model implements ChessBoardSolver.Model {
 
-    private ArrayList<Peça> peces;
-    private Tauler tauler;
-    private Control control;
+    private final ArrayList<Peça> peces;
+    private final Tauler tauler;
 
     public Model() {
         peces = new ArrayList();
         tauler = new Tauler(8);
     }
 
-    public void setControl(Control control) {
-        this.control = control;
-    }
-    
-    public Peça getPrimeraPeça(){
-        if(!peces.isEmpty()){
+    @Override
+    public Peça getPrimeraPeça() {
+        if (!peces.isEmpty()) {
             return peces.get(0);
         }
         return null;
     }
-    
-    public boolean isEmptyPeces(){
+
+    @Override
+    public boolean isEmptyPeces() {
         return peces.isEmpty();
     }
 
-    private void AddPeça(Peça p) {
+    @Override
+    public void AddPeça(int x, int y, TipusPeça t) {
+        Peça p;
+        p = getPeça(x, y, t);
         tauler.getTauler()[p.getX()][p.getY()].setTorn(0);
         tauler.setMaxTorn(tauler.getSize() - peces.size());
         peces.add(p);
@@ -47,24 +48,26 @@ public class Model {
         });
     }
 
-    public void AddCavall(int x, int y) {
-        AddPeça(new Cavall(x, y));
-    }
-
-    public void AddRei(int x, int y) {
-        AddPeça(new Rei(x, y));
-    }
-
-    public void AddReina(int x, int y) {
-        AddPeça(new Reina(x, y));
-    }
-
-    public void AddPeo(int x, int y) {
-        AddPeça(new Peo(x, y));
-    }
-    
-    public void AddTorre(int x, int y) {
-        AddPeça(new Torre(x, y));
+    private Peça getPeça( int x, int y, TipusPeça t) {
+        Peça p = null;
+        switch (t) {
+            case CAVALL:
+                p = new Cavall(x, y);
+                break;
+            case TORRE:
+                p = new Torre(x, y);
+                break;
+            case PEO:
+                p = new Peo(x, y);
+                break;
+            case REI:
+                p = new Rei(x, y);
+                break;
+            case REINA:
+                p = new Reina(x, y);
+                break;
+        }
+        return p;
     }
 
     public Tauler getTauler() {

@@ -23,12 +23,13 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.border.EmptyBorder;
 import reines.ChessBoardSolver;
+import reines.TipusPeça;
 
 /**
  *
  * @author biels
  */
-public class View extends JFrame implements ChessBoardSolver.View{
+public class View extends JFrame implements ChessBoardSolver.View {
 
     private JPanel panel;
     private JPanel grid;
@@ -50,7 +51,7 @@ public class View extends JFrame implements ChessBoardSolver.View{
         initPanel();
         initToolbar();
         initChessBoard();
-        setToolbarLabelContent("Pot afegir més d'una peça però la primera que posi será la que farà el recorregut!!");
+        setToolbarLabelContent("Pot afegir més d'una peça però la primera que posi serà la que farà el recorregut!!");
         add(panel);
         pack();
     }
@@ -59,11 +60,11 @@ public class View extends JFrame implements ChessBoardSolver.View{
         panel = new JPanel(new BorderLayout(3, 3));
         panel.setBorder(new EmptyBorder(5, 5, 5, 5));
     }
-    
+
     public void setControlador(Control con) {
         control = con;
     }
-       
+
     //PERMITE REDIMENSIONAR EL TABLERO
     private void initChessBoard() {
         grid = new JPanel(new GridLayout(0, 8)) {
@@ -104,7 +105,7 @@ public class View extends JFrame implements ChessBoardSolver.View{
             control.reset();
         });
         iniciar.addActionListener((ActionEvent) -> {
-           control.solveChessBoard();
+            control.solveChessBoard();
         });
         toolbarLabel = new JLabel();
         tools.add(iniciar);
@@ -132,50 +133,31 @@ public class View extends JFrame implements ChessBoardSolver.View{
                 final int x = ii;
                 final int y = jj;
                 b.addActionListener((ActionEvent) -> {
-                   JDialog d = new ChoosePieceDialog(this,x,y);
+                    JDialog d = new ChoosePieceDialog(this, x, y);
                 });
                 chessBoardSquares[ii][jj] = b;
                 grid.add(b);
             }
         }
     }
-    
-    private void paintPeça(int x, int y, Imatge img){
+
+    public void paintPeça(int x, int y, TipusPeça tipus) {
+        Imatge img = getImage(tipus);
         chessBoardSquares[x][y].setIcon(img.getIcon());
     }
-    
-    public void paintCavall(int x, int y){
-        paintPeça(x,y,Imatge.CAVALL);
-    }
-    
-    public void paintPeo(int x, int y){
-        paintPeça(x,y,Imatge.PEO);
-    }
-    
-    public void paintTorre(int x, int y){
-        paintPeça(x,y,Imatge.TORRE);
-    }
-    
-    public void paintRei(int x, int y){
-        paintPeça(x,y,Imatge.REI);
-    }
-    
-    public void paintReina(int x, int y){
-        paintPeça(x,y,Imatge.REINA);
-    }
-    
+
     public void setNumberToCasilla(int x, int y, int number) {
         chessBoardSquares[x][y].setText(Integer.toString(number));
         chessBoardSquares[x][y].setFont(new Font("Arial", Font.PLAIN, 64));
     }
-    
+
     @Override
-    public void showCanNotSolveChessBoardMessage(){
+    public void showCanNotSolveChessBoardMessage() {
         JOptionPane.showMessageDialog(this, "Aquesta peça no pot recorrer tot el tauler.");
     }
-    
+
     @Override
-    public void showPutOnePieceMessage(){
+    public void showPutOnePieceMessage() {
         JOptionPane.showMessageDialog(this, "Afegeix mínim una peça per iniciar el recorregut.");
     }
 
@@ -185,43 +167,66 @@ public class View extends JFrame implements ChessBoardSolver.View{
         initView();
     }
 
+    @Override
     public void setToolbarLabelContent(String s) {
         toolbarLabel.setText(s);
     }
-    
-    private class ChoosePieceDialog extends JDialog {
-    
-    private JPanel panel;
-    private View view;
-    private int peçaX;
-    private int peçaY;
-    
-    public ChoosePieceDialog(View frame, int x, int y) {
-        super(frame, "Choose yor piece", true);
-        this.view = frame;
-        this.peçaX = x;
-        this.peçaY = y;
-        panel = new JPanel();
-        createButtonWithIcon(Imatge.CAVALL,"cavall");
-        createButtonWithIcon(Imatge.REI,"rei");
-        createButtonWithIcon(Imatge.REINA,"reina");
-        createButtonWithIcon(Imatge.TORRE,"torre");
-        createButtonWithIcon(Imatge.PEO,"peo");
-        getContentPane().add(panel);
-        pack();
-        setLocationRelativeTo(view);
-        setVisible(true);
+
+    private Imatge getImage(TipusPeça tipus) {
+        Imatge img = null;
+        switch(tipus){
+            case CAVALL:
+                img = Imatge.CAVALL;
+                break;
+            case TORRE:
+                img = Imatge.TORRE;
+                break;
+            case PEO:
+                img = Imatge.PEO;
+                break;
+            case REI:
+                img = Imatge.REI;
+                break;
+            case REINA:
+                img = Imatge.REINA;
+                break;
+        }
+        return img;
     }
 
-    private void createButtonWithIcon(Imatge icon, String select) {
-        JButton button = new JButton(icon.getIcon());
-        button.setPreferredSize(new Dimension(100, 100));
-        button.addActionListener((ActionEvent) -> {
-            control.createPeça(select,peçaX,peçaY);
-            dispose();
-        });
-        panel.add(button);
+    private class ChoosePieceDialog extends JDialog {
+
+        private final JPanel panel;
+        private final View view;
+        private final int peçaX;
+        private final int peçaY;
+
+        public ChoosePieceDialog(View frame, int x, int y) {
+            super(frame, "Choose yor piece", true);
+            this.view = frame;
+            this.peçaX = x;
+            this.peçaY = y;
+            panel = new JPanel();
+            createButtonWithIcon(Imatge.CAVALL, TipusPeça.CAVALL);
+            createButtonWithIcon(Imatge.REI, TipusPeça.REI);
+            createButtonWithIcon(Imatge.REINA, TipusPeça.REINA);
+            createButtonWithIcon(Imatge.TORRE, TipusPeça.TORRE);
+            createButtonWithIcon(Imatge.PEO, TipusPeça.PEO);
+            getContentPane().add(panel);
+            pack();
+            setLocationRelativeTo(view);
+            setVisible(true);
+        }
+
+        private void createButtonWithIcon(Imatge icon, TipusPeça tipus) {
+            JButton button = new JButton(icon.getIcon());
+            button.setPreferredSize(new Dimension(100, 100));
+            button.addActionListener((ActionEvent) -> {
+                control.createPeça(peçaX, peçaY, tipus);
+                dispose();
+            });
+            panel.add(button);
+        }
     }
-}
 
 }
