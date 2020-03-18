@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
  */
 public class Imatge {
 
-    private ImageIcon icon;
+    private final ImageIcon icon;
 
     public static final Imatge CAVALL = new Imatge("images/WhiteKnight.png");
     public static final Imatge REINA = new Imatge("images/WhiteQueen.png");

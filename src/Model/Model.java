@@ -15,7 +15,7 @@ import reines.TipusPeça;
  */
 public class Model implements ChessBoardSolver.Model {
 
-    private ArrayList<Peça> peces;
+    private static ArrayList<Peça> peces;
     private Tauler tauler;
     private final int size;
 
@@ -88,6 +88,11 @@ public class Model implements ChessBoardSolver.Model {
 
     public Tauler getTauler() {
         return tauler;
+    }
+
+    
+    public static ArrayList<Peça> getPeces() {
+        return peces;
     }
 
     @Override

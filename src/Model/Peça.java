@@ -15,6 +15,7 @@ public abstract class Peça {
     private int y;
     protected Tauler taulerCami;
     private int torn;
+    
 
     public Peça(int x, int y) {
         this.x = x;
@@ -99,5 +100,62 @@ public abstract class Peça {
     
     protected boolean hasVisited(int x, int y){
         return taulerCami.getTauler()[x][y].isVisited();
+    }
+    
+    
+    protected boolean isBlocked(int x, int y) {
+        if (Math.abs(this.x - x) == Math.abs(this.y - y)) {
+            //diagonal sup-izq
+            int dist = Math.abs(this.x - x);
+            if (this.x > x && this.y > y) {
+                return Model.getPeces().stream().anyMatch(it
+                        -> this.x > it.getX() && this.y > it.getY()
+                        && (Math.abs(this.x - it.getX()) == Math.abs(this.y - it.getY()))
+                        && dist > Math.abs(this.x - it.getX()));
+            }
+            //diagonal sup-der
+            if (this.x > x && this.y < y) {
+                return Model.getPeces().stream().anyMatch(it
+                        -> this.x > it.getX() && this.y < it.getY()
+                        && (Math.abs(this.x - it.getX()) == Math.abs(this.y - it.getY()))
+                        && dist > Math.abs(this.x - it.getX()));
+            }
+            //diagonal inf-izq
+            if (this.x < x && this.y > y) {
+                return Model.getPeces().stream().anyMatch(it
+                        -> this.x < it.getX() && this.y > it.getY()
+                        && (Math.abs(this.x - it.getX()) == Math.abs(this.y - it.getY()))
+                        && dist > Math.abs(this.x - it.getX()));
+            }
+            //diagonal inf-der
+            if (this.x < x && this.y < y) {
+                return Model.getPeces().stream().anyMatch(it
+                        -> this.x < it.getX() && this.y < it.getY()
+                        && (Math.abs(this.x - it.getX()) == Math.abs(this.y - it.getY()))
+                        && dist > Math.abs(this.x - it.getX()));
+            }
+        } else {
+            //adalt
+            if (this.y == y && this.x > x) {
+                return Model.getPeces().stream().anyMatch(it
+                        -> it.getY() == this.y && (it.getX() > x && this.x > it.getX()));
+            }
+            //abaix
+            if (this.y == y && this.x < x) {
+                return Model.getPeces().stream().anyMatch(it
+                        -> it.getY() == this.y && (it.getX() < x && this.x < it.getX()));
+            }
+            //dreta
+            if (this.x == x && this.y < y) {
+                return Model.getPeces().stream().anyMatch(it
+                        -> it.getX() == this.x && (it.getY() < y && this.y < it.getY()));
+            }
+            //esquerra
+            if (this.x == x && this.y > y) {
+                return Model.getPeces().stream().anyMatch(it
+                        -> it.getX() == this.x && (it.getY() > y && this.y > it.getY()));
+            }
+        }
+        return false;
     }
 }

@@ -12,34 +12,33 @@ package Model;
 public class Casella {
 
     private int torn;
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
     public static final int NOT_VISITED = -1;
-    
+
     public Casella(int x, int y) {
         this.x = x;
         this.y = y;
         torn = NOT_VISITED;
     }
-    
+
     public int getX() {
         return x;
     }
-    
+
     public int getY() {
         return y;
     }
-    
-    public void setTorn(int torn){
-        this.torn = torn; 
+
+    public void setTorn(int torn) {
+        this.torn = torn;
     }
 
     public int getTorn() {
         return torn;
     }
-    
-    public boolean isVisited(){
+
+    public boolean isVisited() {
         return torn != NOT_VISITED;
     }
-    
 }

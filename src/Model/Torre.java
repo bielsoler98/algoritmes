@@ -18,7 +18,7 @@ public class Torre extends Peça{
     @Override
     public boolean validMove(int x, int y) {
         return (isUp(x, y) || isDown(x, y) || 
-                isLeft(x, y) || isRight(x, y)) && !hasVisited(x, y);
+                isLeft(x, y) || isRight(x, y)) && !hasVisited(x, y) && !isBlocked(x, y);
     }
     
 }

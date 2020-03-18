@@ -13,6 +13,6 @@ public class Peo extends Peça {
 
     @Override
     public boolean validMove(int x, int y) {
-        return (isUp(x, y) && (getYDistance(y) == 1));
+        return (isUp(x, y) && (getYDistance(y) == 1) && !isBlocked(x, y));
     }
 }

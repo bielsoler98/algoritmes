@@ -6,6 +6,7 @@
 package reines;
 
 import Model.Peça;
+import java.util.ArrayList;
 
 /**
  *
@@ -33,6 +34,6 @@ interface Controller {
         boolean isEmptyPeces();
         Peça getPrimeraPeça();
         void AddPeça(int x, int y, TipusPeça t);
-        public void resetModel();
+        void resetModel();
     }
 }

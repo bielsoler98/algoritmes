@@ -18,7 +18,8 @@ public class Rei extends Peça {
     @Override
     public boolean validMove(int x, int y) {
         return ((getXDistance(x)<2 && getYDistance(y)<2)
-                    && (getYDistance(y) != 0 || getXDistance(x)!=0)) && !hasVisited(x,y);
+                    && (getYDistance(y) != 0 || getXDistance(x)!=0)) &&
+                !hasVisited(x,y) && !isBlocked(x, y);
     }
 
 }

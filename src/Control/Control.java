@@ -14,9 +14,9 @@ import reines.TipusPeça;
  *
  * @author Andrea
  */
-public class Control implements ChessBoardSolver.Controller{
+public class Control implements ChessBoardSolver.Controller {
 
-    private ChessBoardSolver.View view;
+    private final ChessBoardSolver.View view;
     private ChessBoardSolver.Model model;
 
     public Control(ChessBoardSolver.View view, ChessBoardSolver.Model model) {

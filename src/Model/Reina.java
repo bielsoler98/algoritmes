@@ -19,6 +19,6 @@ public class Reina extends Peça {
     public boolean validMove(int x, int y) {
         return ((isDiagonal(x, y) || isUp(x, y) || 
                 isDown(x, y) || isRight(x, y) || 
-                isLeft(x, y)) && !hasVisited(x, y));
+                isLeft(x, y)) && !hasVisited(x, y)) && !isBlocked(x, y);
     }
 }

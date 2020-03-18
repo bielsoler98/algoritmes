@@ -11,8 +11,8 @@ package Model;
  */
 public class Tauler {
 
-    private Casella[][] tauler;
-    private int tam;
+    private final Casella[][] tauler;
+    private final int tam;
     int maxTorn;
 
     public Tauler(int tam) {
@@ -22,7 +22,6 @@ public class Tauler {
     }
 
     private void inicialitzaTauler() {
-        maxTorn = getSize() -1;
         for (int i = 0; i < tam; i++) {
             for (int j = 0; j < tam; j++) {
                 tauler[i][j] = new Casella(i, j);
@@ -33,15 +32,10 @@ public class Tauler {
     public Casella[][] getTauler() {
         return tauler;
     }
-    
-     public boolean isInBounds(Casella c) {
-        return ((c.getX() >= 0 && c.getX() < tam) && (c.getY() >= 0 && c.getY() < tam));
-    }
      
-     int getSize(){
+    public int getSize(){
          return tam*tam;
      }
-     
 
     public int getCasellesLliures() {
         int n = 0;
@@ -55,11 +49,11 @@ public class Tauler {
         return n;
     }
 
-    void setMaxTorn(int i) {
+    public void setMaxTorn(int i) {
         maxTorn = i;
     }
 
-    int getMaxTorn() {
+    public int getMaxTorn() {
         return maxTorn;
     }
 }
