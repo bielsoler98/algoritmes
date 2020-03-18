@@ -14,21 +14,20 @@ import View.View;
  * @author biels
  */
 public class Reines {
-    
+
     private Control control;
     private View view;
     private Model model;
-    
+
     public static void main(String[] args) {
         (new Reines()).inicio();
     }
 
     private void inicio() {
-        view = new View();
-        model = new Model();
+        view = new View(8);
+        model = new Model(8);
         control = new Control(view, model);
         view.setControlador(control);
     }
-    
-    
+
 }

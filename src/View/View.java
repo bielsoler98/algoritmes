@@ -13,8 +13,7 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -40,8 +39,14 @@ public class View extends JFrame implements ChessBoardSolver.View {
     private ChessBoardSolver.Controller control;
     private JLabel toolbarLabel;
     private final View context = this;
+    private int size = 4;
 
-    public View() {
+    public View(int size) {
+        this.size = size;
+        startChessBoard();
+    }
+
+    private void startChessBoard() {
         initView();
         setTitle("ChessBoard Solver");
         setLocationByPlatform(true);
@@ -55,7 +60,7 @@ public class View extends JFrame implements ChessBoardSolver.View {
         initPanel();
         initToolbar();
         initChessBoard();
-        setToolbarLabelContent("Pot afegir més d'una peça però la primera que posi serà la que farà el recorregut!!");
+        setToolbarLabelContent("La primera peça col·locada realitzará el recorregut");
         add(panel);
         pack();
     }
@@ -65,13 +70,14 @@ public class View extends JFrame implements ChessBoardSolver.View {
         panel.setBorder(new EmptyBorder(5, 5, 5, 5));
     }
 
+    @Override
     public void setControlador(ChessBoardSolver.Controller con) {
         control = con;
     }
 
     //PERMITE REDIMENSIONAR EL TABLERO
     private void initChessBoard() {
-        grid = new JPanel(new GridLayout(0, 8)) {
+        grid = new JPanel(new GridLayout(0, size)) {
             @Override
             public final Dimension getPreferredSize() {
                 Dimension d = super.getPreferredSize();
@@ -115,16 +121,38 @@ public class View extends JFrame implements ChessBoardSolver.View {
             control.solveChessBoard();
         });
         toolbarLabel = new JLabel();
+        JLabel labelSize = new JLabel(Integer.toString(size), SwingConstants.CENTER);
+        JButton minus = new JButton("-");
+        minus.addActionListener((ActionEvent) -> {
+            if (size > 4) {
+                size--;
+                control.changeSize(size);
+            }
+        });
+        JButton plus = new JButton("+");
+        plus.addActionListener((ActionEvent) -> {
+            if (size < 8) {
+                size++;
+                control.changeSize(size);
+            }
+        });
+        
         tools.add(iniciar);
         tools.addSeparator();
         tools.add(reset);
         tools.addSeparator();
         tools.add(toolbarLabel);
+        tools.add(Box.createHorizontalGlue());
+        tools.add(minus);
+        tools.addSeparator();
+        tools.add(labelSize);
+        tools.addSeparator();
+        tools.add(plus);
     }
 
     //PINTA LAS CASILLAS DEL TABLERO
     private void setCaselles() {
-        chessBoardSquares = new JButton[8][8];
+        chessBoardSquares = new JButton[size][size];
         Insets buttonMargin = new Insets(0, 0, 0, 0);
         for (int ii = 0; ii < chessBoardSquares.length; ii++) {
             for (int jj = 0; jj < chessBoardSquares[ii].length; jj++) {
@@ -162,7 +190,7 @@ public class View extends JFrame implements ChessBoardSolver.View {
 
     @Override
     public void showCanNotSolveChessBoardMessage() {
-        JOptionPane.showMessageDialog(this, "Aquesta peça no pot recorrer tot el tauler.");
+        JOptionPane.showMessageDialog(this, "Aquesta peça no pot recòrrer tot el tauler.");
     }
 
     @Override
@@ -242,65 +270,6 @@ public class View extends JFrame implements ChessBoardSolver.View {
                 dispose();
             });
             panel.add(button);
-        }
-    }
-
-    private class ChooseSizeBoardDialog extends JDialog {
-        private final JLabel labelSize;
-
-        public ChooseSizeBoardDialog() {
-            super(context, "Choose ChessBoard size", true);
-            JPanel chooserPanel = new JPanel();
-            JPanel acceptPannel = new JPanel();
-            
-            JButton min = createMinusButton();
-            chooserPanel.add(min);
-            labelSize = new JLabel("4", SwingConstants.CENTER);
-            labelSize.setPreferredSize(new Dimension(100,100));
-            labelSize.setFont(new Font("Calibri", Font.BOLD, 20));
-            chooserPanel.add(labelSize);
-            JButton sum = createPlusButton();
-            chooserPanel.add(sum);
-            
-            getContentPane().add(chooserPanel);
-            pack();
-            setLocationRelativeTo(context);
-            setVisible(true);
-        }
-
-        private JButton createButton(String buttonContent, ActionListener e) {
-            JButton button = new JButton(buttonContent);
-            button.setPreferredSize(new Dimension(50, 25));
-            button.addActionListener(e);
-            return button;
-        }
-
-        private JButton createMinusButton() {
-            ActionListener e = (ActionEvent e1) -> {
-                int size = Integer.parseInt(labelSize.getText());
-                if(size > 4){
-                    size--;
-                    labelSize.setText(Integer.toString(size));
-                }
-            };
-            return createButton("-", e);
-        }
-
-        private JButton createPlusButton() {
-            ActionListener e = (ActionEvent e1) -> {
-                int size = Integer.parseInt(labelSize.getText());
-                if(size < 8){
-                    size++;
-                    labelSize.setText(Integer.toString(size));
-                }
-            };
-            return createButton("+", e);
-        }
-        
-        private JButton createAcceptButton() {
-            ActionListener e = (ActionEvent e1) -> {
-            };
-            return createButton("Acceptar", e);
         }
     }
 }

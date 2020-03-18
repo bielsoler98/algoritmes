@@ -16,7 +16,7 @@ import reines.TipusPeça;
  */
 public class Control implements ChessBoardSolver.Controller{
 
-    private final ChessBoardSolver.View view;
+    private ChessBoardSolver.View view;
     private ChessBoardSolver.Model model;
 
     public Control(ChessBoardSolver.View view, ChessBoardSolver.Model model) {
@@ -85,6 +85,12 @@ public class Control implements ChessBoardSolver.Controller{
     @Override
     public void reset() {
         view.resetView();
-        model = new Model();
+        model.resetModel();
+    }
+
+    @Override
+    public void changeSize(int size) {
+        view.resetView();
+        model = new Model(size);
     }
 }

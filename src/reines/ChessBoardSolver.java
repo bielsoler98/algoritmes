@@ -16,6 +16,7 @@ interface Controller {
         void solveChessBoard();
         void createPeça(int x, int y, TipusPeça tipus);
         void reset();
+        public void changeSize(int size);
     }
     
     interface View {
@@ -25,11 +26,13 @@ interface Controller {
         void setToolbarLabelContent(String s);
         void paintPeça(int x, int y, TipusPeça tipus);
         void setNumberToCasilla(int x, int y, int number);
+        void setControlador(Controller con);
     }
     
     interface Model {
         boolean isEmptyPeces();
         Peça getPrimeraPeça();
         void AddPeça(int x, int y, TipusPeça t);
+        public void resetModel();
     }
 }
